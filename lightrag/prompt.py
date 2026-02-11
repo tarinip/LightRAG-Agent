@@ -430,3 +430,57 @@ Output:
 
 """,
 ]
+
+PROMPTS["query_classifier"] = """---Role---
+You are an expert query complexity analyzer. Your task is to determine if a user query is "complex" or "simple".
+
+---Definitions---
+- **Simple Query**: A query that can be answered directly by a single retrieval step. It typically focuses on a single entity or a straightforward fact.
+- **Complex Query**: A query that is multi-faceted, requires comparing multiple entities, involves temporal or causal reasoning across different topics, or needs information from diverse parts of the knowledge base.
+
+---Instructions---
+1. Analyze the query for multiple distinct information needs.
+2. Determine if the query should be broken down into sub-queries.
+3. Output a JSON object with the following fields:
+   - "is_complex": boolean
+   - "reasoning": a brief explanation of why the query is classified as simple or complex.
+
+---Query---
+{query}
+
+---Output---
+"""
+
+PROMPTS["planner_system_prompt"] = """---Role---
+You are a sophisticated Query Planner Agent. Your goal is to decompose complex user prompts into a structured plan of 3-5 atomic sub-tasks.
+
+---Instructions---
+1. Decompose the original query into 3-5 distinct, atomic sub-tasks that together will resolve the complex prompt.
+2. Identify dependencies between sub-tasks. If a sub-task needs the output of another, list the dependent sub-task's ID in `depends_on`.
+3. For each sub-task, run in all modes:
+   - "local": for specific entities and detailed relationships.
+   - "global": for high-level themes and summaries.
+   - "hybrid": for a mix of local and global context.
+   - "naive": for simple keyword-based lookup.
+   - "reasoning": for synthesizing, comparing, or analyzing the results of previous tasks without needing new external retrieval.
+4. Output a JSON object with a "sub_tasks" list, where each task has:
+   - "id": a unique identifier (e.g., "task_1", "task_2")
+   - "query": the atomic sub-query string
+   - "mode": the retrieval mode
+   - "depends_on": a list of task IDs this task depends on.
+
+---Output Format---
+{{
+  "sub_tasks": [
+    {{
+      "id": "task_1",
+      "query": "...",
+      "mode": "...",
+      "depends_on": []
+    }},
+    ...
+  ]
+}}
+"""
+
+PROMPTS["planner_user_prompt"] = "Original Query: {query}"
