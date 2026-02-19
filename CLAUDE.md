@@ -16,11 +16,21 @@ LightRAG is a Retrieval-Augmented Generation (RAG) framework that uses graph-bas
 
 - **base.py**: Abstract base classes for storage backends (`BaseKVStorage`, `BaseVectorStorage`, `BaseGraphStorage`, `BaseDocStatusStorage`).
 
-- **kg/**: Storage implementations (JSON, NetworkX, Neo4j, PostgreSQL, MongoDB, Redis, Milvus, Qdrant, Faiss, Memgraph). Each storage type provides different trade-offs for production vs. development use.
+- **kg/**: Storage implementations (JSON, NetworkX, Neo4j, PostgreSQL, MongoDB, Redis, Milvus, Qdrant, Faiss, Memgraph). Each storage type provides different trade-offs for production vs. development use. MongoDB serves as an all-in-one storage backend.
 
-- **llm/**: LLM provider bindings (OpenAI, Ollama, Azure, Gemini, Bedrock, Anthropic, etc.). All use async patterns with caching support.
+- **llm/**: LLM provider bindings (OpenAI, Ollama, Azure, Gemini, Bedrock, Anthropic, Jina, Lollms, LMDeploy, etc.). All use async patterns with caching support.
 
 - **api/**: FastAPI server (`lightrag_server.py`) with REST endpoints and Ollama-compatible API, plus React 19 + TypeScript WebUI.
+
+- **planner_agent.py**: `PlannerAgent` for decomposing complex queries into dependency-aware sub-tasks. Uses classify→plan→execute pipeline with topological sort for task DAGs. Entry point is `await agent.run(query)`. Falls back to direct `rag.aquery()` for simple queries.
+
+- **agentic_rag.py**: `AgenticRAG` orchestrates the full agentic pipeline (architecture diagram steps 1-12): classify → plan → [retrieve → grade → synthesize/rewrite] → final synthesis. Delegates grading to `GraderAgent` from `grader_agent.py`. Entry point is `await AgenticRAG(rag).run(query)`.
+
+- **grader_agent.py**: `GraderAgent` evaluates retrieved content (entities, relationships, chunks) for relevance, completeness, and sufficiency. On failure, provides a rewritten query for self-correction. Used by `AgenticRAG`.
+
+- **rerank.py**: Reranking module supporting Jina, Cohere, Aliyun DashScope, and generic API rerankers with chunking, score aggregation, and retry logic.
+
+- **evaluation/**: RAGAS-based RAG quality evaluation (faithfulness, answer relevance, context recall/precision).
 
 ### Storage Layer
 
@@ -39,6 +49,7 @@ Workspace isolation is implemented differently per storage type (subdirectories 
 - **hybrid**: Combines local and global
 - **naive**: Direct vector search without graph
 - **mix**: Integrates KG and vector retrieval (recommended with reranker)
+- **reasoning**: (PlannerAgent only) Direct LLM synthesis without retrieval, used for analyzing previous sub-task results
 
 ## Development Commands
 
@@ -55,6 +66,9 @@ uv sync --extra api
 uv sync --extra offline-storage  # Storage backends
 uv sync --extra offline-llm      # LLM providers
 uv sync --extra test             # Testing dependencies
+uv sync --extra docling          # Document parsing with ML
+uv sync --extra evaluation       # RAGAS-based RAG quality evaluation
+uv sync --extra observability    # Langfuse LLM tracing
 ```
 
 ### API Server
@@ -91,6 +105,12 @@ python -m pytest tests --keep-artifacts
 
 # Run with custom workers
 python -m pytest tests --test-workers 4
+```
+
+### Additional CLI Tools
+```bash
+lightrag-clean-llmqc   # Clean LLM query cache
+lightrag-download-cache # Download cache utility
 ```
 
 ### Linting
@@ -202,6 +222,33 @@ result = await rag.aquery(
         stream=False
     )
 )
+
+# Get raw retrieval context (entities, relations, chunks) without LLM synthesis
+context = await rag.aquery_data("Your question", param=QueryParam(mode="hybrid"))
+```
+
+### PlannerAgent Usage
+
+For complex multi-faceted queries, `PlannerAgent` decomposes them into dependency-ordered sub-tasks:
+
+```python
+from lightrag.planner_agent import PlannerAgent
+
+agent = PlannerAgent(rag)
+result = await agent.run("Complex query requiring multiple retrieval steps")
+
+# Access sub-task results after execution
+if agent.state:
+    for task_id, task in agent.state.tasks.items():
+        print(f"[{task.id}] ({task.mode}): {task.query} -> {task.result}")
+```
+
+### Document Deletion
+
+Documents can be deleted with automatic KG regeneration:
+
+```python
+await rag.adelete_by_doc_id("doc-123")
 ```
 
 ## WebUI Development
@@ -327,5 +374,7 @@ Set `LIGHTRAG_*` variables for integration tests:
 
 ### Reranker Configuration
 - Significantly improves retrieval quality
+- Supported backends: Jina, Cohere, Aliyun DashScope, generic API
 - Recommended models: `BAAI/bge-reranker-v2-m3`, Jina rerankers
 - Use "mix" mode when reranker is enabled
+- Features document chunking with overlap, score aggregation (max/mean/first), and retry with backoff

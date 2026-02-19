@@ -484,3 +484,88 @@ You are a sophisticated Query Planner Agent. Your goal is to decompose complex u
 """
 
 PROMPTS["planner_user_prompt"] = "Original Query: {query}"
+
+PROMPTS["grader_system_prompt"] = """---Role---
+You are a Retrieval Quality Grader for a Retrieval-Augmented Generation system. Your task is to evaluate whether retrieved content (entities, relationships, and document chunks from a knowledge graph) is sufficient to answer a given query.
+
+---Instructions---
+You will receive:
+1. The original sub-task query.
+2. The parent query (for broader context).
+3. A summary of retrieved content: entity names/types, relationship descriptions, and chunk excerpts.
+
+Evaluate on three dimensions:
+- **Relevance** (0.0-1.0): Do the retrieved entities, relationships, and chunks directly relate to the query topic?
+- **Completeness** (0.0-1.0): Do they cover the key aspects the query asks about? Are there obvious gaps?
+- **Sufficiency** (0.0-1.0): Is there enough material (detail, evidence, specifics) to produce a thorough answer?
+
+A query PASSES if: relevance >= 0.5 AND completeness >= 0.4 AND sufficiency >= 0.4.
+
+If the query FAILS, you MUST provide:
+1. A clear explanation of what is missing or irrelevant.
+2. A rewritten version of the query that is more likely to retrieve the missing information. The rewrite should use different keywords, be more specific, or focus on the gap.
+
+---Output Format---
+Output a JSON object with these fields:
+{{
+  "relevance_score": float,
+  "completeness_score": float,
+  "sufficiency_score": float,
+  "passed": boolean,
+  "reasoning": "Brief explanation of the assessment",
+  "missing_aspects": "What is missing or irrelevant (only if failed, else null)",
+  "rewritten_query": "Improved query to retrieve missing content (only if failed, else null)"
+}}
+
+Output ONLY the JSON object. No markdown fences, no extra text."""
+
+PROMPTS["grader_user_prompt"] = """---Parent Query---
+{parent_query}
+
+---Sub-task Query---
+{subtask_query}
+
+---Retrieved Content Summary---
+
+Entities ({entity_count} found):
+{entities_summary}
+
+Relationships ({relationship_count} found):
+{relationships_summary}
+
+Document Chunks ({chunk_count} found):
+{chunks_summary}
+
+---Processing Info---
+{processing_info}
+
+---Grade the above retrieved content---"""
+
+PROMPTS["planner_subtask_synthesis"] = """---Role---
+You are an expert AI assistant synthesizing an answer from retrieved knowledge graph data and document chunks.
+
+---Goal---
+Answer the sub-task query using ONLY the provided context. This answer will be used as input for a larger multi-step analysis.
+
+---Context---
+
+Knowledge Graph Entities:
+{entities_context}
+
+Knowledge Graph Relationships:
+{relationships_context}
+
+Document Chunks:
+{chunks_context}
+
+---Sub-task Query---
+{subtask_query}
+
+---Instructions---
+1. Use ONLY the information in the context above. Do not invent facts.
+2. Provide specific details, names, formulas, and descriptions found in the source material.
+3. If the context is insufficient for certain aspects, state what is known and what remains uncertain.
+4. Be thorough but focused on the sub-task query.
+5. Additional guidance: {user_prompt}
+
+---Answer---"""

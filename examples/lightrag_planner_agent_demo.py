@@ -176,7 +176,8 @@ async def main():
     # Initialize Planner Agent
     agent = PlannerAgent(rag)
 
-    complex_query = "In the beginning of the text, the author discusses the necessity of a 'bias' to allow for generalization. Find the specific technique introduced much later that uses 'prior knowledge in the form of a partial theory' to guide the learning process. How does this technique mathematically reconcile an existing symbolic rule-set with new, conflicting empirical observations?"
+    #complex_query = "The author discusses a 'boundary' that separates successful classification from error. Find a technique in the book where this boundary is not a static line or curve, but is instead represented by a collection of logical rules. How does the 'search' through these rules differ from the 'search' performed by gradient descent?"
+    complex_query= "Examine the 'Knowledge-Based Artificial Neural Network' (KBANN). How does the system 'map' a set of 'IF-THEN' rules into a network of weights and biases, and what happens to those 'hand-coded' rules as the system starts to see new empirical data?"
     answer = await agent.run(complex_query)
 
     print("\n--- FINAL SYNTHESIZED ANSWER ---")

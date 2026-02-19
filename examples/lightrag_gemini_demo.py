@@ -342,9 +342,9 @@ async def main():
     print("✅ Indexing complete!")
 
     # --- QUERY ---
-    query = "Find the methodology that relies on a 'subset of the power set of all possible instances' to define its hypothesis space. Explain why this specific methodology would be computationally infeasible for the type of signal processing tasks described in the neural network chapters."
-    #query="In the beginning of the text, the author discusses the necessity of a 'bias' to allow for generalization. Find the specific technique introduced much later that uses 'prior knowledge in the form of a partial theory' to guide the learning process. How does this technique mathematically reconcile an existing symbolic rule-set with new, conflicting empirical observations?"
-    print("\nNaive Search:")
+    #query = "Find the methodology that relies on a 'subset of the power set of all possible instances' to define its hypothesis space. Explain why this specific methodology would be computationally infeasible for the type of signal processing tasks described in the neural network chapters."
+   # query=""Find the 'convergence theorem' mentioned in the context of simplest linear learners. Now, find the 'PAC learning' bounds discussed in the computational theory section. Does the book provide a specific scenario where the PAC requirements are satisfied but the convergence theorem would still fail to reach a solution in finite time?"
+    query="Identify the methodology used to resolve classification failures in datasets that are not separable by a single hyperplane without increasing the number of learning parameters. How does the text describe the process of projecting the input space into a higher-dimensional feature space, and why is this technically considered a 'fixed' rather than 'adaptive' transformation in the context of Φ-functions?"
     print(rag.query(query, param=QueryParam(mode="naive")))
 
     print("\nLocal Search:")
