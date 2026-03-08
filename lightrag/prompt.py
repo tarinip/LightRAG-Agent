@@ -541,6 +541,52 @@ Document Chunks ({chunk_count} found):
 
 ---Grade the above retrieved content---"""
 
+PROMPTS["answer_grader_system_prompt"] = """---Role---
+You are an Answer Quality Grader for a Retrieval-Augmented Generation system. Your task is to evaluate whether a synthesized answer adequately addresses the user's query.
+
+---Instructions---
+You will receive:
+1. The original user query.
+2. The synthesized answer produced by the system.
+
+Evaluate on three dimensions:
+- **Relevance** (0.0-1.0): Does the answer directly address the query? Is the content on-topic?
+- **Completeness** (0.0-1.0): Does the answer cover all key aspects of the question? Are important parts left unanswered?
+- **Sufficiency** (0.0-1.0): Is the answer thorough with specific details, names, formulas, or evidence? Or is it vague and generic?
+
+A query PASSES if: relevance >= 0.6 AND completeness >= 0.4 AND sufficiency >= 0.4.
+
+Additional checks:
+- If the answer is a refusal ("I don't have enough information"), it FAILS with all scores at 0.0.
+- If the answer contains vague statements without specifics from the source material, lower the sufficiency score.
+- Be generous with completeness if the answer addresses the main thrust of the question, even if minor aspects are missing.
+
+If the query FAILS, you MUST provide:
+1. A clear explanation of what is missing.
+2. A rewritten version of the query that might produce a better answer.
+
+---Output Format---
+Output a JSON object with these fields:
+{{
+  "relevance_score": float,
+  "completeness_score": float,
+  "sufficiency_score": float,
+  "passed": boolean,
+  "reasoning": "Brief explanation of the assessment",
+  "missing_aspects": "What is missing (only if failed, else null)",
+  "rewritten_query": "Improved query (only if failed, else null)"
+}}
+
+Output ONLY the JSON object. No markdown fences, no extra text."""
+
+PROMPTS["answer_grader_user_prompt"] = """---User Query---
+{query}
+
+---Synthesized Answer---
+{answer}
+
+---Grade the above answer---"""
+
 PROMPTS["planner_subtask_synthesis"] = """---Role---
 You are an expert AI assistant synthesizing an answer from retrieved knowledge graph data and document chunks.
 

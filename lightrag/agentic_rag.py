@@ -41,6 +41,7 @@ class SubTask:
     depends_on: List[str] = field(default_factory=list)
     status: Literal["pending", "running", "completed", "failed"] = "pending"
     result: Optional[str] = None
+    result_summary: Optional[str] = None
 
 
 @dataclass
@@ -142,6 +143,29 @@ class AgenticRAG:
             rag_instance=rag_instance,
             max_retries=MAX_GRADER_RETRIES,
         )
+
+    # =================================================================
+    # Sub-task result summarization
+    # =================================================================
+
+    async def _summarize_result(self, task_query: str, result: str) -> str:
+        """Produce a concise 2-3 sentence summary of a sub-task result."""
+        if not result or _is_empty_answer(result):
+            return "No relevant information found."
+        prompt = (
+            "Summarize the following answer in 2-3 concise sentences. "
+            "Keep specific names, numbers, and key facts. "
+            "Do NOT add information that is not in the answer.\n\n"
+            f"Question: {task_query}\n\n"
+            f"Answer:\n{result[:3000]}\n\n"
+            "Summary:"
+        )
+        try:
+            summary = await self.rag.llm_model_func(prompt)
+            return str(summary).strip()
+        except Exception as e:
+            logger.error(f"Summarization failed: {e}")
+            return result[:300] + ("..." if len(result) > 300 else "")
 
     # =================================================================
     # Helper: Build QueryParam
@@ -282,13 +306,15 @@ class AgenticRAG:
             task = state.tasks[task_id]
             task.status = "running"
 
-            # Inject previous results into context for dependent tasks
+            # Inject previous results into context (use summaries for conciseness)
             deps_results = []
             for dep_id in task.depends_on:
-                if dep_id in state.tasks and state.tasks[dep_id].result:
+                dep = state.tasks.get(dep_id)
+                if dep and dep.result:
+                    dep_answer = dep.result_summary or dep.result
                     deps_results.append(
-                        f"Q: {state.tasks[dep_id].query}\n"
-                        f"A: {state.tasks[dep_id].result}"
+                        f"Q: {dep.query}\n"
+                        f"A: {dep_answer}"
                     )
             context_str = "\n\n".join(deps_results)
 
@@ -374,6 +400,7 @@ class AgenticRAG:
                         break
 
             task.result = result
+            task.result_summary = await self._summarize_result(task.query, str(result))
             task.status = "completed"
             results_context.append(f"Sub-task: {task.query}\nResult: {result}")
 
@@ -427,59 +454,43 @@ Final Response:"""
         state: TaskState,
         answer: str,
     ) -> tuple[bool, Optional[GradeResult]]:
-        """Grade the final answer. Returns (passed, grade_result)."""
-        # Try multiple retrieval modes for grading
-        for mode in FALLBACK_MODES:
-            param = self._build_query_param(mode=mode, is_fallback=True)
-            data = await self.rag.aquery_data(state.original_query, param=param)
+        """Grade the final synthesized answer. Returns (passed, grade_result).
 
-            if data.get("status") != "success":
-                continue
+        Evaluates the actual answer text against the query, rather than
+        re-retrieving data and grading retrieval quality. This is more
+        accurate because the agentic pipeline uses multi-step retrieval
+        across different sub-tasks and modes — a single fresh retrieval
+        cannot capture what the pipeline actually found.
+        """
+        grade = await self._grader.grade_answer(
+            query=state.original_query,
+            answer=answer,
+        )
 
-            grade = await self._grader.grade(
-                subtask_query=state.original_query,
-                parent_query=state.original_query,
-                data=data,
-            )
+        logger.info(
+            f"Final answer grade: passed={grade.passed}, "
+            f"R={grade.relevance_score:.2f}, "
+            f"C={grade.completeness_score:.2f}, "
+            f"S={grade.sufficiency_score:.2f} "
+            f"- {grade.reasoning}"
+        )
 
-            summary = GraderAgent.summarize_retrieved_data(data)
+        grade_record = {
+            "attempt": state.plan_attempts + 1,
+            "passed": grade.passed,
+            "relevance": grade.relevance_score,
+            "completeness": grade.completeness_score,
+            "sufficiency": grade.sufficiency_score,
+            "reasoning": grade.reasoning,
+        }
+        state.grade_history.append(grade_record)
 
-            logger.info(
-                f"Final grade (mode={mode}): passed={grade.passed}, "
-                f"R={grade.relevance_score:.2f}, "
-                f"C={grade.completeness_score:.2f}, "
-                f"S={grade.sufficiency_score:.2f} "
-                f"- {grade.reasoning}"
-            )
+        if grade.passed:
+            state.final_grade = {**grade_record, "passed": True}
+            return True, grade
 
-            grade_record = {
-                "attempt": state.plan_attempts + 1,
-                "mode": mode,
-                "passed": grade.passed,
-                "relevance": grade.relevance_score,
-                "completeness": grade.completeness_score,
-                "sufficiency": grade.sufficiency_score,
-                "reasoning": grade.reasoning,
-                "data_summary": (
-                    f"{summary['entity_count']} entities, "
-                    f"{summary['relationship_count']} relationships, "
-                    f"{summary['chunk_count']} chunks"
-                ),
-            }
-            state.grade_history.append(grade_record)
-
-            if grade.passed:
-                state.final_grade = {**grade_record, "passed": True}
-                return True, grade
-
-            # If this mode failed, record and try next
-            state.final_grade = {**grade_record, "passed": False}
-            return False, grade
-
-        # All retrieval modes failed
-        logger.warning("Final grading: all retrieval modes failed.")
-        state.final_grade = {"passed": True, "reason": "all_retrievals_failed_skip"}
-        return True, None
+        state.final_grade = {**grade_record, "passed": False}
+        return False, grade
 
     # =================================================================
     # Topological Sort (DAG ordering)

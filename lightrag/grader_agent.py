@@ -163,6 +163,56 @@ class GraderAgent:
             )
 
     # ------------------------------------------------------------------
+    # Answer-based grading (grades the synthesized answer, not retrieval)
+    # ------------------------------------------------------------------
+
+    async def grade_answer(
+        self,
+        query: str,
+        answer: str,
+    ) -> GradeResult:
+        """Grade the synthesized answer for relevance, completeness, and sufficiency.
+
+        Unlike ``grade()``, this evaluates the **final answer text** directly
+        instead of re-retrieving data and grading retrieval quality.
+
+        Args:
+            query: The original user query.
+            answer: The synthesized answer to evaluate.
+
+        Returns:
+            GradeResult with scores and optional rewrite suggestion.
+        """
+        prompt = PROMPTS["answer_grader_user_prompt"].format(
+            query=query,
+            answer=answer[:5000],
+        )
+        system_prompt = PROMPTS["answer_grader_system_prompt"]
+
+        response = await self.rag.llm_model_func(prompt, system_prompt=system_prompt)
+
+        try:
+            result = json_repair.loads(response)
+            return GradeResult(
+                passed=result.get("passed", False),
+                relevance_score=float(result.get("relevance_score", 0.0)),
+                completeness_score=float(result.get("completeness_score", 0.0)),
+                sufficiency_score=float(result.get("sufficiency_score", 0.0)),
+                reasoning=result.get("reasoning", "No reasoning"),
+                rewritten_query=result.get("rewritten_query"),
+                missing_aspects=result.get("missing_aspects"),
+            )
+        except Exception as e:
+            logger.error(f"Answer grader parse error: {e}. Defaulting to pass.")
+            return GradeResult(
+                passed=True,
+                relevance_score=0.5,
+                completeness_score=0.5,
+                sufficiency_score=0.5,
+                reasoning=f"Answer grader parse error: {e}. Defaulting to pass.",
+            )
+
+    # ------------------------------------------------------------------
     # Synthesis from raw data
     # ------------------------------------------------------------------
 

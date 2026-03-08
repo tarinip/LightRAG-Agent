@@ -28,6 +28,7 @@ class SubTask:
     depends_on: List[str] = field(default_factory=list)
     status: Literal["pending", "running", "completed", "failed"] = "pending"
     result: Optional[str] = None
+    result_summary: Optional[str] = None
     structured_data: Optional[Dict[str, Any]] = None
     grader_attempts: int = 0
     grader_history: List[Dict[str, Any]] = field(default_factory=list)
@@ -135,6 +136,30 @@ class PlannerAgent:
             max_total_tokens=params.get("max_total_tokens", 50000),
             user_prompt=user_prompt,
         )
+
+    # ------------------------------------------------------------------
+    # Sub-task result summarization
+    # ------------------------------------------------------------------
+
+    async def _summarize_result(self, task_query: str, result: str) -> str:
+        """Produce a concise 2-3 sentence summary of a sub-task result."""
+        if not result or _is_empty_answer(result):
+            return "No relevant information found."
+        prompt = (
+            "Summarize the following answer in 2-3 concise sentences. "
+            "Keep specific names, numbers, and key facts. "
+            "Do NOT add information that is not in the answer.\n\n"
+            f"Question: {task_query}\n\n"
+            f"Answer:\n{result[:3000]}\n\n"
+            "Summary:"
+        )
+        try:
+            summary = await self.rag.llm_model_func(prompt)
+            return str(summary).strip()
+        except Exception as e:
+            logger.error(f"Summarization failed: {e}")
+            # Fallback: truncate the result
+            return result[:300] + ("..." if len(result) > 300 else "")
 
     # ------------------------------------------------------------------
     # Grader Agent methods
@@ -458,11 +483,13 @@ class PlannerAgent:
             task = state.tasks[task_id]
             task.status = "running"
 
-            # Inject previous results into context if needed
+            # Inject previous results into context (use summaries for conciseness)
             deps_results = []
             for dep_id in task.depends_on:
-                if dep_id in state.tasks and state.tasks[dep_id].result:
-                    deps_results.append(f"Q: {state.tasks[dep_id].query}\nA: {state.tasks[dep_id].result}")
+                dep = state.tasks.get(dep_id)
+                if dep and dep.result:
+                    dep_answer = dep.result_summary or dep.result
+                    deps_results.append(f"Q: {dep.query}\nA: {dep_answer}")
 
             context_str = "\n\n".join(deps_results)
 
@@ -539,6 +566,7 @@ Task: {task.query}
                         break
 
             task.result = result
+            task.result_summary = await self._summarize_result(task.query, str(result))
             task.status = "completed"
             results_context.append(f"Sub-task: {task.query}\nResult: {result}")
 

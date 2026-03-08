@@ -22,10 +22,8 @@ from lightrag.utils import wrap_embedding_func_with_attrs
 from ragas import EvaluationDataset, evaluate as ragas_evaluate
 from ragas.metrics._faithfulness import Faithfulness
 from ragas.metrics._answer_relevance import AnswerRelevancy
-from ragas.metrics import (
-    LLMContextPrecisionWithoutReference as LLMContextPrecisionWithoutReference,
-)
-from ragas.metrics import ContextUtilization as ContextUtilization
+from ragas.metrics import ContextRelevance
+from ragas.metrics import ResponseGroundedness
 from ragas.llms import LangchainLLMWrapper
 from ragas.embeddings import LangchainEmbeddingsWrapper
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
@@ -117,8 +115,9 @@ QUERIES = [
     "Locate the 'Bagging' or 'Boosting' concepts (even if named differently). Does the author suggest that 'averaging' the votes of 10 weak learners can outperform a single strong learner? What is the requirement for the 'diversity' of those weak learners?",
     "Based on the concluding remarks, what does the author identify as the primary 'computational' limit to scaling these algorithms to human-level complexity? Is it the number of 'neurons,' the amount of 'data,' or the 'speed of the search'?",
 ]
-
-
+# QUERIES = [
+#      "Identify a technique in the book that uses 'Search' as its underlying mechanism for learning but does not belong to the Neural Network or Statistical Learning paradigms."
+#   ]
 # --- Helpers ---
 
 
@@ -175,7 +174,14 @@ async def run_single_query(label, coro):
 
 
 async def get_retrieval_contexts(rag, query):
-    """Get retrieved contexts (entities, relationships, chunks) for RAGAS evaluation."""
+    """Get retrieved contexts for RAGAS evaluation.
+
+    Returns a small number of substantial context passages (text chunks first,
+    then consolidated entity/relationship summaries) so RAGAS metrics like
+    ContextRelevance and ResponseGroundedness can score them meaningfully.
+    Passing hundreds of tiny entity/relationship fragments causes those
+    metrics to return 0.0.
+    """
     try:
         result = await rag.aquery_data(
             query,
@@ -194,24 +200,37 @@ async def get_retrieval_contexts(rag, query):
         data = result.get("data", {})
         contexts = []
 
-        for ent in data.get("entities", []):
+        # 1. Text chunks are the most substantial — add them first (up to 20)
+        for c in data.get("chunks", [])[:20]:
+            content = c.get("content", "").strip()
+            if content:
+                contexts.append(content)
+
+        # 2. Consolidate entity descriptions into a single passage
+        entity_lines = []
+        for ent in data.get("entities", [])[:30]:
             desc = ent.get("description", "").strip()
             if desc:
                 name = ent.get("entity_name", "")
                 etype = ent.get("entity_type", "")
-                contexts.append(f"[Entity: {name} ({etype})] {desc}")
+                entity_lines.append(f"- {name} ({etype}): {desc}")
+        if entity_lines:
+            contexts.append(
+                "Key entities:\n" + "\n".join(entity_lines)
+            )
 
-        for rel in data.get("relationships", []):
+        # 3. Consolidate relationship descriptions into a single passage
+        rel_lines = []
+        for rel in data.get("relationships", [])[:30]:
             desc = rel.get("description", "").strip()
             if desc:
                 src = rel.get("src_id", "")
                 tgt = rel.get("tgt_id", "")
-                contexts.append(f"[Relationship: {src} -> {tgt}] {desc}")
-
-        for c in data.get("chunks", []):
-            content = c.get("content", "").strip()
-            if content:
-                contexts.append(content)
+                rel_lines.append(f"- {src} -> {tgt}: {desc}")
+        if rel_lines:
+            contexts.append(
+                "Key relationships:\n" + "\n".join(rel_lines)
+            )
 
         return contexts if contexts else ["No context retrieved."]
     except Exception as e:
@@ -379,8 +398,8 @@ async def main():
     metrics = [
         Faithfulness(llm=eval_llm),
         AnswerRelevancy(llm=eval_llm, embeddings=eval_embed),
-        LLMContextPrecisionWithoutReference(llm=eval_llm),
-        ContextUtilization(llm=eval_llm),
+        ContextRelevance(llm=eval_llm),
+        ResponseGroundedness(llm=eval_llm),
     ]
 
     print("  Evaluating Gemini (hybrid) answers...")
@@ -397,8 +416,8 @@ async def main():
     metric_cols = [
         "faithfulness",
         "answer_relevancy",
-        "llm_context_precision_without_reference",
-        "context_utilization",
+        "context_relevance",
+        "response_groundedness",
     ]
     for i, r in enumerate(results):
         for method, df in [("gemini", gemini_df), ("agentic", agentic_df)]:
@@ -428,7 +447,7 @@ async def main():
 
     print(
         f"\n{'Method':<20} {'Pass':>6} {'Fail':>6} {'Time':>8}"
-        f"  {'Faith':>7} {'AnsRel':>7} {'CtxPre':>7} {'CtxUti':>7}"
+        f"  {'Faith':>7} {'AnsRel':>7} {'CtxRel':>7} {'Ground':>7}"
     )
     print("-" * 85)
     for method, label, passes, total_time in [
@@ -439,8 +458,8 @@ async def main():
             f"{label:<20} {passes:>6} {total - passes:>6} {total_time:>7.0f}s"
             f"  {avg_ragas(results, method, 'faithfulness'):>7.4f}"
             f" {avg_ragas(results, method, 'answer_relevancy'):>7.4f}"
-            f" {avg_ragas(results, method, 'llm_context_precision_without_reference'):>7.4f}"
-            f" {avg_ragas(results, method, 'context_utilization'):>7.4f}"
+            f" {avg_ragas(results, method, 'context_relevance'):>7.4f}"
+            f" {avg_ragas(results, method, 'response_groundedness'):>7.4f}"
         )
 
     # Per-query table
@@ -519,14 +538,14 @@ async def main():
             "gemini_time_s",
             "gemini_faithfulness",
             "gemini_answer_relevancy",
-            "gemini_ctx_precision",
-            "gemini_ctx_utilization",
+            "gemini_ctx_relevance",
+            "gemini_groundedness",
             "agentic_pass",
             "agentic_time_s",
             "agentic_faithfulness",
             "agentic_answer_relevancy",
-            "agentic_ctx_precision",
-            "agentic_ctx_utilization",
+            "agentic_ctx_relevance",
+            "agentic_groundedness",
             "agentic_num_subtasks",
             "agentic_plan_attempts",
             "agentic_final_grade_passed",
@@ -545,14 +564,14 @@ async def main():
                 r["gemini"]["time_s"],
                 gr.get("faithfulness", ""),
                 gr.get("answer_relevancy", ""),
-                gr.get("llm_context_precision_without_reference", ""),
-                gr.get("context_utilization", ""),
+                gr.get("context_relevance", ""),
+                gr.get("response_groundedness", ""),
                 r["agentic"]["success"],
                 r["agentic"]["time_s"],
                 ar.get("faithfulness", ""),
                 ar.get("answer_relevancy", ""),
-                ar.get("llm_context_precision_without_reference", ""),
-                ar.get("context_utilization", ""),
+                ar.get("context_relevance", ""),
+                ar.get("response_groundedness", ""),
                 len(r["agentic"].get("subtasks", [])),
                 r["agentic"].get("plan_attempts", 1),
                 fg.get("passed", ""),

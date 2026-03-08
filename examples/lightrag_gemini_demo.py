@@ -314,9 +314,9 @@ async def initialize_rag():
 # --------------------------------------------------
 async def main():
     # --- CLEANUP STEP ---
-    # if os.path.exists(WORKING_DIR):
-    #     print(f"🧹 Cleaning up existing storage at {WORKING_DIR}...")
-    #     shutil.rmtree(WORKING_DIR)
+    if os.path.exists(WORKING_DIR):
+        print(f"🧹 Cleaning up existing storage at {WORKING_DIR}...")
+        shutil.rmtree(WORKING_DIR)
 
     #os.mkdir(WORKING_DIR)
 

@@ -80,3 +80,10 @@ CLAUDE.md
 
 plans
 rag_storage_planner
+rag_storage_*/
+examples/rag_storage_*/
+
+# Benchmark artifacts
+benchmark_*.csv
+benchmark_*.json
+*.pdf
