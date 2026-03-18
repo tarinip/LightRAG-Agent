@@ -48,7 +48,7 @@ Grader Agent (evaluate answer quality)
 | `examples/streamlit_benchmark.py` | Interactive Streamlit app for benchmarking Standard RAG vs AgenticRAG |
 | `examples/benchmark_agentic_rag.py` | CLI benchmark script with RAGAS evaluation |
 | `exploratory_data_analysis.py` | EDA done for project |
-
+| `benchmark_agentic_ragas.csv` |  query results |
 ---
 
 ## Quick Start
@@ -180,6 +180,7 @@ examples/
 └── lightrag_gemini_demo.py # Gemini integration demo
 
 exploratory_data_analysis.py # EDA for datasets
+benchmark_agentic_ragas.csv  # Query results
 ```
 
 ---
