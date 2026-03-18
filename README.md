@@ -155,8 +155,7 @@ The benchmark tools evaluate with four RAGAS metrics:
 
 - **Faithfulness** — Is the answer grounded in the retrieved context?
 - **Answer Relevancy** — Does the answer address the question?
-- **Context Relevance** — Is the retrieved context relevant?
-- **Response Groundedness** — Are claims supported by context?
+
 
 ---
 
