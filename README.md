@@ -2,7 +2,7 @@
 
 **Agentic RAG pipeline built on top of [LightRAG](https://github.com/HKUDS/LightRAG)** — a graph-based Retrieval-Augmented Generation framework.
 
-This fork extends LightRAG with multi-step agentic retrieval, answer grading with self-correction, and a Streamlit benchmark UI for comparing Standard RAG vs AgenticRAG.
+This fork extends LightRAG with multi-step agentic retrieval, answer grading with self-correction, and a Streamlit benchmark UI for comparing Standard LightRAG vs AgenticRAG.
 
 ---
 
