@@ -1,0 +1,1601 @@
+[
+  {
+    "query_num": 1,
+    "query": "Identify a technique in the book that uses 'Search' as its underlying mechanism for learning but does not belong to the Neural Network or Statistical Learning paradigms.",
+    "gemini": {
+      "success": false,
+      "time_s": 1.19,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 33.05,
+      "answer": "The query asks to identify learning techniques described in the provided book that use 'Search' as their underlying mechanism but do not belong to the Neural Network or Statistical Learning paradigms. Based on the analyses of the sub-tasks, two techniques fit this description: the Candidate Elimination Method and Inductive Logic Programming (ILP).\n\n**The Candidate Elimination Method:** This method explicitly involves 'Search' within a version space to find a hypothesis consistent with all training instances. As detailed in the sub-task results, it manipulates specific and general boundary sets to narrow down the possible hypotheses. This process of refining the hypothesis space based on training examples constitutes a 'Search'. Critically, the sub-task analyses indicate that the Candidate Elimination Method does not inherently belong to either the Neural Network or Statistical Learning paradigms.\n\n**Inductive Logic Programming (ILP):** ILP uses 'Search' to find a logic program that satisfies positive and negative examples, leveraging background knowledge to guide the search. This involves exploring a space of possible logic programs to find one that correctly explains the observed data. Similar to the Candidate Elimination Method, the sub-task results confirm that ILP is not inherently part of the Neural Network or Statistical Learning paradigms.\n\nTherefore, the Candidate Elimination Method and Inductive Logic Programming (ILP) are identified as techniques described in the book that utilize 'Search' as their underlying mechanism without being classified within the Neural Network or Statistical Learning paradigms.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "List all learning techniques described in the book.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "For each technique listed in task_1, determine if its underlying mechanism involves 'Search'.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "For each technique listed in task_1, determine if it belongs to the Neural Network paradigm.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "For each technique listed in task_1, determine if it belongs to the Statistical Learning paradigm.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Synthesize the results from tasks 2, 3, and 4. Identify the technique(s) that use 'Search' as its underlying mechanism but does not belong to the Neural Network or Statistical Learning paradigms.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9011,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 2,
+    "query": "Locate the specific section where the author defines the 'environment' in which the learner operates. Now, identify a learning paradigm discussed in the second half of the book that fundamentally alters that environment's state through its actions, rather than just observing it. Contrast its objective function with the objective function of the most basic linear classifier.",
+    "gemini": {
+      "success": true,
+      "time_s": 1.2,
+      "answer": "I am unable to identify a specific section that contains the definition of 'environment' in which the learner operates, however, I can provide information about a learning paradigm discussed in the second half of the book that fundamentally alters that environment’s state through its actions, rather than just observing it.\n\nDelayed-Reinforcement Learning, covered in Chapter 11, involves a learner (e.g., a robot) existing in an environment with states, sensory inputs (represented by an input vector X), and a set of possible actions A. [reference_id: ] The learner's actions change the environment's state, leading to new sensory inputs and rewards. [reference_id: ] The learner aims to find a policy π(X) that maps input vectors to actions to maximize accumulated rewards over time through trial and error, without initial knowledge of action effects. [reference_id: ] This contrasts with basic linear classifiers, which aim to find a linear boundary (hyperplane) that separates data points into different classes based on input features, without considering the impact of actions on the environment. The objective of Delayed-Reinforcement Learning is to maximize rewards accumulated over time, whereas the objective of basic linear classifiers is to correctly classify data points based on their features.\n\n### References\n\n- [1] INTRODUCTION TO MACHINE LEARNING",
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 53.81,
+      "answer": "The author defines the 'environment' in which an AI agent operates in Chapter 1. The agent perceives and models its environment and computes appropriate actions, anticipating their effects. The environment can also be indirectly defined as any characteristic of the working context of a machine learning system that is not completely known at design time, necessitating on-the-job improvement, or any aspect that might change, requiring the machine to adapt and thus reduce redesign needs.\n\nIn the second half of the book, several learning paradigms are discussed. These include Temporal-Difference Learning, Delayed-Reinforcement Learning, Explanation-Based Learning (EBL), Unsupervised Learning, Inductive Logic Programming, and Computational Learning Theory.\n\nThe learning paradigm that fundamentally alters the environment's state through its actions, as opposed to simply observing it, is **Delayed-Reinforcement Learning**. This paradigm focuses on learning optimal policies with delayed rewards. The agent interacts with the environment by taking actions, and the outcomes of these actions (delayed rewards) influence future decisions, thereby shaping the environment's state. Q-Learning is a method within Delayed-Reinforcement Learning.\n\nThe objective function of Q-Learning is to learn an optimal policy by determining the optimal Q-values, Q(X, a), which represent the expected ultimate total reward when action *a* is taken in response to input *X*. The Q-Learning algorithm iteratively approximates this optimal Q-value function, Q*(X, a). The update rule for Q-values is as follows:\n\n```\nQi(X, a) = (1 −ci)Qi−1(X, a) + ci[ri + γVi−1(X′i)]\n```\n\nwhere:\n\n*   `Qi(X, a)` is the updated Q-value for state X and action a.\n*   `ci` is the learning rate parameter.\n*   `ri` is the immediate reward received after taking action a in state X.\n*   `γ` is the discount factor.\n*   `Vi−1(X′i) = maxb [Qi−1(X′, b)]` is the maximum Q-value achievable from the subsequent state X′i.\n\nIn contrast, the objective function of the most basic linear classifier involves finding weight values that give the desired dot products, corresponding to solving a set of linear equalities. The Widrow-Hoﬀ procedure can be interpreted as a descent procedure that attempts to minimize the mean-squared-error between the actual and desired values of the dot product.\n\nThe objective function of Q-Learning is inherently different from that of a basic linear classifier. Q-Learning aims to maximize *long-term, cumulative rewards* in a sequential decision-making environment, learning through experience. The basic linear classifier aims to *directly classify* data points by finding a linear decision boundary that minimizes classification error, using labeled training data and optimization methods. They employ different learning paradigms (Reinforcement Learning vs. Supervised Learning) and optimization strategies as a result.  The fundamental difference lies in the nature of the problems they address: sequential decision-making with delayed rewards versus direct classification with immediate feedback.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Find the section(s) of the text where the author explicitly defines or describes the 'environment' in which a learner operates.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Identify learning paradigms discussed in the second half of the book.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "From the paradigms identified in task_2, pinpoint the specific learning paradigm that fundamentally alters the environment's state through its actions (as opposed to simply observing it).",
+          "mode": "reasoning",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Determine the objective function of the learning paradigm identified in task_3.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "What is the objective function of the most basic linear classifier?",
+          "mode": "naive",
+          "status": "completed"
+        },
+        {
+          "id": "task_6",
+          "query": "Contrast the objective function of the learning paradigm identified in task_3 with the objective function of the basic linear classifier (identified in task_5).",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.9762,
+        "answer_relevancy": 0.7766,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 3,
+    "query": "Find the methodology that relies on a 'subset of the power set of all possible instances' to define its hypothesis space. Explain why this specific methodology would be computationally infeasible for the type of signal processing tasks described in the neural network chapters.",
+    "gemini": {
+      "success": false,
+      "time_s": 1.23,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 47.46,
+      "answer": "The original query asks to identify a methodology that relies on a 'subset of the power set of all possible instances' to define its hypothesis space and explain why this methodology would be computationally infeasible for signal processing tasks described in the neural network chapters.\n\nSeveral methodologies in machine learning and computer science utilize a subset of the power set of all possible instances to define the hypothesis space. Two such methodologies are Absolute Bias (Restricted Hypothesis-Space Bias) and Version Spaces. Let's examine these in detail.\n\n**Absolute Bias (Restricted Hypothesis-Space Bias)**\n\nAbsolute bias, also known as restricted hypothesis-space bias, is a methodology that deliberately limits the set of possible hypotheses (*H*) considered by a learning algorithm. Instead of considering all possible functions (the full power set of instances), it pre-selects a specific subset. This subset represents the algorithm's inherent assumptions about the nature of the problem.\n\nLet *X* be the set of all possible instances (input data). The power set of *X*, denoted as P(X), is the set of all possible subsets of *X*. Each element in P(X) represents a potential target concept or function. In a binary classification setting, each subset of *X* corresponds to the set of instances classified as positive. Absolute bias explicitly restricts the hypothesis space *H* to be a particular subset of P(X). This means that only certain functions (or ways of classifying instances) are considered.\n\nFor example, the hypothesis space could be restricted to linearly separable Boolean functions. *X* could be the set of all possible Boolean input vectors, P(X) would be the set of *all* possible Boolean functions, and the *linearly separable* restriction means that the algorithm *only* considers functions that can be represented by a linear equation (i.e., there exists a weight vector `w` and a threshold `b` such that an instance `x` is classified as positive if `w.x + b >= 0` and negative otherwise). The hypothesis space `H` is thus a small subset of all possible Boolean functions (P(X)).\n\nThe complexity of Absolute Bias depends on how `H` is represented. If `H` is explicitly enumerated, the space complexity is proportional to the size of `H`. More commonly, `H` is defined implicitly by a set of parameters. In this case, the space complexity is related to the number of parameters needed to define the functions in `H`. For example, a linear classifier in d-dimensional space has a space complexity of O(d). The time complexity for training depends on the specific learning algorithm used *within* the restricted hypothesis space, but restricting the hypothesis space often reduces the computational cost of learning. Prediction complexity is generally low after the model is trained.\n\n**Version Spaces**\n\nVersion spaces represent a subset of hypotheses from an initial hypothesis space (`H`) that are *consistent* with the observed training data. It's a way of representing all the hypotheses that haven't been ruled out by the training examples.\n\nStart with an initial hypothesis space `H`. Again, think of `H` as a subset of P(X), where P(X) is the power set of all possible instances `X`. `H` represents the algorithm's initial set of candidate functions. As training data arrives (instance `x` and its corresponding label `f(x)`), the version space is refined. Hypotheses in `H` that misclassify `x` are removed. The version space, denoted `Hv`, is the set of all hypotheses within the *original* `H` that correctly classify all the training examples seen so far. `Hv` is therefore a subset of `H`, and consequently a subset of P(X).\n\nThe algorithm conceptually works as follows: 1. Initialization: Start with an initial hypothesis space `H`. 2. Iteration: For each training example `(x, f(x))`, remove from `H` any hypothesis `h` that incorrectly classifies `x` (i.e., `h(x) != f(x)`). 3. Result: The remaining hypotheses in `H` form the version space `Hv`.\n\nStoring the version space can be challenging. There are two common approaches: Listing (explicitly listing all hypotheses in `Hv`) and Boundary Sets (representing `Hv` using two sets: `S` (the set of *most specific* hypotheses that cover all positive examples) and `G` (the set of *most general* hypotheses that don't cover any negative examples)). The space complexity depends on the size of `S` and `G`. The time complexity (training/learning) depends on the size of the initial hypothesis space `H` and the number of training examples. The time complexity (prediction) depends on how `Hv` is represented. To classify a new instance, you can either consult all hypotheses in `Hv` and take a majority vote, or check if the instance is covered by all hypotheses in `G`.\n\n**Computational Infeasibility for Signal Processing Tasks (ALVINN Example)**\n\nThe neural network chapters describe signal processing tasks such as steering a van using a neural network system called ALVINN (Autonomous Land Vehicle in a Neural Network). This system processes a low-resolution (30 x 32) television image to produce a stream of 960-dimensional input vectors to the neural network. The network has five hidden units in its first layer and 30 output units in the second layer; all are sigmoid units. The output units are arranged in a linear order and control the van’s steering angle. ALVINN is trained by a modified on-line training regime, and the system constructs an additional 14 labeled training patterns to add to those encountered during ordinary driver training.\n\nThe version space methodology is computationally infeasible for the ALVINN system for the following reasons:\n\n*   **Massive Hypothesis Space:** Even if we restrict the initial hypothesis space `H` to something relatively simple, the dimensionality of the input (960) will lead to a very large number of possible hypotheses, some subset of P(X) where X is the space of all 960 dimensional input vectors. Even trying to represent a boundary set (S and G) for this space would be incredibly complex.\n\n*   **Real-Time Constraints:** The ALVINN system requires real-time performance. Updating the version space for each new image would be far too slow. Even with the boundary set optimization, the computations would likely be too extensive to meet the real-time requirements of steering a vehicle. Backpropagation allows for parallel processing with GPUs, enabling rapid model iteration and response, while the boundary set would need to update all the hypotheses for each example which is inherently sequential.\n\n*   **Continuous Learning and Data Augmentation:** The continuous learning aspect of ALVINN, combined with data augmentation, means that the system needs to process a large number of training examples rapidly. The computational overhead of updating the version space for each of these examples would be prohibitive.\n\n*   **Lack of Generalization with Version Spaces**: Version spaces are only guaranteed to find a consistent hypothesis if the target concept is *within* the original hypothesis space H. It is unlikely that the true steering function of a vehicle (which is highly complex and potentially nonlinear) would be in H. Neural networks with their non-linear activations have much more power to approximate a wider class of functions.\n\nIn conclusion, while version spaces offer a theoretically sound framework for learning, their computational complexity makes them unsuitable for complex, real-time signal processing tasks like autonomous driving. The high-dimensional input, the need for real-time processing, and the continuous learning requirements of ALVINN would make maintaining and updating the version space computationally intractable. The use of backpropagation in ALVINN offers a more efficient way to learn complex functions in high-dimensional spaces and can be adapted for real-time operation.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify methodologies in machine learning or computer science that use a 'subset of the power set of all possible instances' to define the hypothesis space.",
+          "mode": "naive",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Provide a detailed explanation of the methodology identified in Task 1, focusing on how it utilizes the subset of the power set for its hypothesis space and the complexity of its operations.",
+          "mode": "reasoning",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Describe the common signal processing tasks described in neural network chapters, focusing on their computational requirements and characteristics.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Analyze the computational complexity of the methodology from Task 2 and compare it to the computational demands of signal processing tasks from Task 3. Explain why the identified methodology would be computationally infeasible, considering the scale and nature of the signal processing problems.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9129,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 4,
+    "query": "The author discusses a 'boundary' that separates successful classification from error. Find a technique in the book where this boundary is not a static line or curve, but is instead represented by a collection of logical rules. How does the 'search' through these rules differ from the 'search' performed by gradient descent?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.17,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 42.19,
+      "answer": "The original query asks about a 'boundary' that separates successful classification from error, specifically seeking a technique where this boundary is represented by a collection of logical rules and how the search through these rules differs from gradient descent.\n\nIn the context of classification, the book discusses a 'boundary' as a means to separate patterns into different categories. A Threshold Logic Unit (TLU) uses a hyperplane (`X•W + wn+1 = 0`) to divide the input space. Adjusting the weight vector `W` changes the hyperplane's orientation, while adjusting `wn+1` shifts its position, enabling classification based on a pattern's location relative to the hyperplane. This hyperplane separates successful and unsuccessful classifications when dealing with linearly separable functions, and the book emphasizes that linearly separable functions are those for which positive and negative instances can be separated by a linear surface, such as a hyperplane. When classifying patterns from Gaussian distributions, a quadric surface (a hyperquadric) serves as the decision boundary.\n\nThe book describes techniques where the classification boundary is represented by a collection of logical rules instead of a static line or curve. These techniques include representing boundaries using *Terms* and *Clauses*. A term of size *k* can be implemented by a TLU with weights corresponding to variables in the term. A weight of +1 is used for positive literals, and -1 for negative literals, with a threshold θ set to *kp* - 1/2, where *kp* is the number of positive literals. This creates a hyperplane boundary parallel to a subface of dimension (*n* − *k*) of the unit hypercube. Clauses can be implemented by inverting a hyperplane, which is achieved by multiplying all the TLU weights (including `wn+1`) by -1.\n\nWhen the classification boundary is represented by logical rules, the process of selecting a hypothesis from the version space can be viewed as a search problem. Two main approaches are: a top-down method, starting with a general function and specializing it, and a bottom-up method, starting with a specific function and generalizing it. The **Candidate Elimination Method** is an incremental method for computing the boundary sets, specifically the general boundary set (GBS) and the specific boundary set (SBS), that represent a new version space consistent with instances. For a positive example, the algorithm generalizes elements of the SBS and removes elements of the GBS that do not cover the new instance. For a negative instance, it specializes elements of the GBS and removes elements of the SBS that mistakenly cover the new instance. A hypothesis is considered sufficient if it has a value of 1 for all training samples labeled with a 1 and necessary if it has a value of 0 for all training samples labeled with a 0. A consistent hypothesis is both sufficient and necessary.\n\nIn contrast, gradient descent, used in backpropagation, adjusts each weight in the network to minimize an error function. The adjustment is proportional to the negative of the partial derivative of the error (ε) with respect to that weight. The partial derivative of a quantity φ with respect to a weight vector W(j)i is defined as:\n\n∂φ/∂W(j)i = [∂φ/∂w(j)1i, ..., ∂φ/∂w(j)li, ..., ∂φ/∂w(j)mj−1+1,i]\n\nwhere w(j)li is the l-th component of W(j)i. This vector partial derivative is also known as the gradient of φ with respect to W and is denoted by ∇Wφ.\n\nThe adjustment to each weight vector follows the rule:\n\nW(j)i ← W(j)i + c(j)i δ(j)i X(j−1)\n\nwhere c(j)i is the learning rate constant for the weight vector, and δ(j)i represents how sensitive the squared error of the network output is to changes in the input to each threshold function.\n\nThe search methods, Candidate Elimination (for logical rules) and Gradient Descent, differ significantly. Candidate Elimination operates in a discrete space of logical hypotheses, forming a version space bounded by the GBS and SBS, whereas Gradient Descent operates in a continuous space of parameters (weights). Candidate elimination involves a discrete search, maintaining the version space by generalizing or specializing boundaries, and it can employ a top-down or bottom-up approach. Gradient descent, on the other hand, is a continuous optimization technique, iteratively adjusting weights to minimize an error function, and can be implemented in batch or stochastic mode. Candidate Elimination aims to find a hypothesis consistent with all training examples, while Gradient Descent aims to minimize a defined error function. Candidate Elimination is highly sensitive to noisy data, whereas Gradient Descent is more robust.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify the concept of a 'boundary' used for classification in the book and its role in distinguishing successful classifications from errors.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Find techniques described in the book where the classification boundary is represented by a collection of logical rules instead of a static line or curve.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Describe the search method used when the boundary is represented by logical rules.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Describe the search method used by gradient descent.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Compare and contrast the search method from task_3 (logical rules) with the search method from task_4 (gradient descent). Highlight the differences in their approaches.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.8491,
+        "answer_relevancy": 0.8594,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 5,
+    "query": "In the beginning of the text, the author discusses the necessity of a 'bias' to allow for generalization. Find the specific technique introduced much later that uses 'prior knowledge in the form of a partial theory' to guide the learning process. How does this technique mathematically reconcile an existing symbolic rule-set with new, conflicting empirical observations?",
+    "gemini": {
+      "success": false,
+      "time_s": 4.79,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 38.24,
+      "answer": "In the beginning of the text, the author establishes the necessity of bias for generalization by posing the question of how learning a function is even possible. Using the example of functions agreeing with four samples (Figure 1.3), the author argues that a learning procedure must have an *a priori* bias to select one function (e.g., a quadratic function) from an uncountable number of possibilities. This bias limits the hypothesis space, allowing for useful learning. The text highlights the special case of learning a Boolean function of *n* dimensions. Without bias, where the hypothesis set *H* includes all 2<sup>2n</sup> Boolean functions, no generalization is possible beyond memorization. Generalization only becomes feasible when *H* is limited to a subset *H<sub>c</sub>*.\n\nLater in the text, Explanation-Based Learning (EBL) is introduced as a technique that incorporates prior knowledge in the form of a domain theory to guide the learning process. EBL can be seen as converting implicit knowledge into explicit knowledge. It specializes parts of a domain theory to explain a particular example and then generalizes the explanation to produce a new, useful element of the domain theory for similar examples. EBL utilizes both information from the training samples and information about the domain implied by the bias, such as the hypothesis set. The domain theory consists of logical assertions about the property being learned.\n\nEBL uses theorem-proving methods with the domain theory to determine if a given example is consistent with the domain theory. For example, a domain theory for classifying robots as \"robust\" might include logical sentences such as:\n\n*   `Fixes(u, u) ⊃ Robust(u)` (An individual that can fix itself is robust.)\n*   `Sees(x, y) ∧ Habile(x) ⊃ Fixes(x, y)` (A habile individual that can see another entity can fix that entity.)\n*   `Robot(w) ⊃ Sees(w, w)` (All robots can see themselves.)\n*   `R2D2(x) ⊃ Habile(x)` (R2D2-class individuals are habile.)\n*   `C3PO(x) ⊃ Habile(x)` (C3PO-class individuals are habile.)\n\nGiven facts about a specific robot, say Num5, EBL uses these rules. If the facts include `Robot(Num5)` and `R2D2(Num5)`, the system might derive the rule `Robot(Num5) ∧ R2D2(Num5) ⊃ Robust(Num5)`. This rule is then generalized by replacing constants with variables using unification to maintain validity, resulting in a general rule like `Robot(r) ∧ R2D2(r) ⊃ Robust(r)`. The operationality criterion connects formulas to be proven with those that can be evaluated, with evaluable predicates analogous to input pattern vector components in neural networks, and predicates in the domain theory like hidden units. EBL finds a simpler expression for the formula to be proved in terms of evaluable predicates.\n\nThe text does not specify how EBL reconciles conflicting empirical observations using explicitly defined mathematical equations. The \"reconciliation\" with new data happens implicitly during the generalization process as long as the new data is consistent with the existing domain theory, allowing the theorem prover to derive an explanation that justifies the classification, which is then generalized. If the new data contradicts the existing domain theory, the described EBL process would fail.\n\nTo handle such conflicting data, extensions to the EBL framework would be required. These could include rule revision (assigning confidence values to rules and updating them based on success/failure), exception handling (introducing exception clauses to rules), weighting of evidence (using Bayesian inference in a probabilistic network representation of the domain theory), or distance metrics and similarity measures between new instances and current domain rules to enable adaptation and relaxation of rules when new data violates current expectations. However, the source text does not provide details on the mathematical implementation of such extensions.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify and extract the author's initial discussion on the necessity of 'bias' for generalization in the beginning of the text.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Search the text for a technique that incorporates 'prior knowledge in the form of a partial theory' to guide learning, appearing later in the text than the discussion on 'bias'.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Elaborate on the specific technique identified in task 2. Provide the mathematical methods for incorporating prior knowledge and reconcile symbolic rules with new empirical data.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Summarize how the technique mathematically reconciles an existing symbolic rule-set with new, conflicting empirical observations. Focus on the mathematical aspects of the reconciliation.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7826,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 6,
+    "query": "The author describes a method for organizing a hypothesis space into a 'nested hierarchy of increasingly complex structures.' If a learner has limited time to find a solution, explain the trade-off the book suggests between the 'depth' of this search and the 'generalization power' of the resulting model. Does this approach favor 'simpler' or 'more specific' explanations in a noisy environment?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.23,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 35.46,
+      "answer": "The author describes a method for organizing a hypothesis space into a 'nested hierarchy of increasingly complex structures.' This nested hierarchy involves dividing a set Ξ into mutually exclusive and exhaustive subsets Ξ1, . . . , ΞR. Each set Ξi (i = 1, . . . , R) is further divided into mutually exclusive and exhaustive subsets, and so on. This hierarchical form is displayed as a tree where the tip nodes can be expanded into their individual pattern elements. One application is organizing individuals into taxonomic hierarchies.\n\nWhen a learner has limited time to find a solution, the book suggests a trade-off between the 'depth' of search in this nested hierarchy and the 'generalization power' of the resulting model. In other words, the more time spent searching deeper into the hierarchy (exploring more complex or specific hypotheses), the less time remains to evaluate and select a hypothesis that generalizes well to unseen data.\n\nRegarding whether this approach favors 'simpler' or 'more specific' explanations in a noisy environment, the provided context doesn't give a definitive answer. To determine which is favored, several factors must be considered, including the definition of \"depth,\" the impact of depth on generalization power, the nature of the noise, the criteria for \"simpler\" and \"more specific,\" and the overall goal of the learning process.\n\nIf 'depth' corresponds to increasingly specific hypotheses, and noise leads to overfitting, then a deeper search, especially with limited time, is likely to favor more specific explanations that may perform poorly on unseen data. The noise could create spurious patterns that the deeper search latches onto.\n\nAlternatively, if deeper search allows for refining simpler initial hypotheses, noise could hinder that refinement, leading to either remaining with the simpler hypothesis (because noise obscures the benefits of refinement) or resulting in overly specific refinements due to the influence of noise.\n\nIn conclusion, the tendency to favor 'simpler' or 'more specific' explanations in a noisy environment when searching a nested hierarchy depends heavily on the structure of the hierarchy, the nature of the noise, and the objective of the learning process. Without further details on these factors, a definitive answer cannot be provided. However, it is plausible that a deeper search with limited time in a noisy environment could lead to overfitting and thus favor *more specific*, but poorly generalizing, explanations.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Explain the 'nested hierarchy of increasingly complex structures' method for organizing a hypothesis space.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Describe the trade-off between the 'depth' of the search in the nested hierarchy and the 'generalization power' of the model, especially when a learner has limited time.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "In a noisy environment, does searching a nested hierarchy of hypotheses tend to favor 'simpler' or 'more specific' explanations?",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.32,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 7,
+    "query": "Identify the moment in the text where the author stops using predicate calculus to represent knowledge and starts using vectors of real numbers. What is the 'justification' provided for this shift in representation, and does the author acknowledge any loss of interpretability during this transition?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.16,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 31.56,
+      "answer": "The transition from predicate calculus to vectors of real numbers occurs in the text when describing linearly separable functions. The author illustrates how these functions, which can be initially expressed as `f = thresh(Σ(wixi), θ)` where `wi` are real-valued weights, `θ` is a real-valued threshold, and `thresh(σ, θ)` is a function that returns 1 if `σ ≥ θ` and 0 otherwise, can be represented more compactly using vectors. This involves defining `X = (x1, . . . , xn)` as an n-dimensional vector of input variables and `W = (w1, . . . , wn)` as an n-dimensional vector of weight values, leading to the representation `f = thresh(X · W, θ)`, where `X · W` represents the dot product of the two vectors.\n\nRegarding the author's justification for this shift, the provided text does not explicitly state the reasoning behind the transition from predicate calculus to vector representation. It can be inferred that the vector notation provides a more concise and potentially computationally efficient way to represent the function, but a direct statement of justification is absent.\n\nFinally, the provided context does not include any explicit acknowledgement from the author regarding a potential loss of interpretability when switching from predicate calculus to vectors of real numbers. There is no discussion about whether the vector representation makes the underlying function less transparent or harder to understand compared to a representation based on predicate calculus.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Locate the passage in the text where the author transitions from using predicate calculus to vectors of real numbers for knowledge representation.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "What justification does the author provide for switching from predicate calculus to vectors of real numbers?",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Does the author acknowledge any loss of interpretability when switching from predicate calculus to vectors of real numbers?",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Synthesize the findings from tasks 1, 2, and 3 to provide a concise summary of the transition, its justification, and any acknowledged loss of interpretability.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9024,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 8,
+    "query": "Find the 'convergence theorem' mentioned in the context of simplest linear learners. Now, find the 'PAC learning' bounds discussed in the computational theory section. Does the book provide a specific scenario where the PAC requirements are satisfied but the convergence theorem would still fail to reach a solution in finite time?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.18,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 35.44,
+      "answer": "The query asks about the convergence theorem in the context of simplest linear learners, PAC learning bounds discussed in computational theory, and whether a specific scenario exists where PAC requirements are satisfied but the convergence theorem fails in finite time.\n\nFirstly, regarding \"simplest linear learners,\" the text identifies several relevant sections: \"Linear Machines\" (Section 4.2), \"Threshold Logic Units (TLU)\" (Section 4.1), discussions of \"Linearly Separable Functions\" (Section 2.2.6), \"Error-Correction Training Algorithm,\" and \"Linear TD(0)\". These sections collectively address linear learners by detailing foundational elements, training methodologies, and specific instances.\n\nSecondly, the convergence theorem is mentioned in the context of `Linear TD(0)`. Specifically, the text states: \"Linear TD(0) converges to optimal estimates for matching future experience in Markov processes.\"  The convergence theorem is more precisely stated as: \"for any absorbing Markov chain and any linearly independent set of observation vectors {Xi} for the non-terminal states, there exists an ε > 0 such that for all positive c < ε and for any initial weight vector, the predictions of linear TD(0) (with weight updates after each sequence) converge in expected value to the optimal (maximum likelihood) predictions of the true process. This is according to Theorem 10.1 (Sutton, page 24, 1988).\"  Furthermore, \"Dayan [Dayan, 1992] has extended the result of Theorem 9.1 to TD(λ) for arbitrary λ between 0 and 1.\"\n\nThirdly, the section on \"Computational Learning Theory\" (Chapter 8) discusses PAC learning. This chapter introduces the theory of probably approximately correct (PAC) learning and describes it for Boolean functions.  Key aspects of PAC learning discussed include:\n\n*   **Notation and Assumptions:**  A training set Ξ of n-dimensional vectors Xi, labeled by a target function f, with a probability distribution P(X). The goal is to guess a function h(X) (hypothesis) that approximates f.\n*   **Error Quantification:** The error of h, εh, is the probability that X is misclassified. A hypothesis is approximately correct (εh ≤ ε) and probably approximately correct (PAC) with a confidence parameter δ. A learning algorithm PAC-learns functions from C in terms of H if it outputs a hypothesis h ϵ H, such that with probability at least (1 − δ), εh ≤ ε.\n*   **Fundamental Theorem:** The probability that a randomly selected h (consistent with f on m training patterns) has an error greater than ε is ≤ |H|e−εm (Theorem 8.1). Corollary 8.2 states that given m ≥ (1/ε)(ln |H| + ln(1/δ)) independent samples, the probability that there exists a hypothesis in H consistent with f and has error greater than ε is at most δ.\n*   **Examples:** The text discusses PAC learnability for terms (conjunctions of literals) and linearly separable functions, noting that the bound on m increases polynomially with n, 1/ε, and 1/δ.\n*   **Properly PAC-Learnable Classes:** A table presents properly PAC-learnable classes, including terms, k-DNF, k-CNF, k-DL, and linearly separable functions, along with their time complexities.\n*   **VC Dimension and PAC Learning:** The text connects VC dimension with PAC learning. Theorem 8.3 states that a hypothesis space H is PAC learnable if and only if it has finite VC dimension. Theorem 8.4 provides conditions for a set of hypotheses, H, to be properly PAC learnable. Theorem 8.5 provides a lower bound on the number of training patterns required for PAC learning: Ω(1/ε lg(1/δ) + VCdim(H)).\n\nFinally, regarding a specific scenario where PAC learning requirements are satisfied, but the convergence theorem (for simplest linear learners, specifically Linear TD(0)) fails to reach a solution in finite time, the text does *not* provide such a scenario. The provided contexts discuss the convergence of Linear TD(0) under specific conditions related to Markov processes and the general bounds on sample complexity for PAC learning. They do not offer a direct comparison or example where satisfying PAC learning criteria would lead to a failure of the Linear TD(0) convergence theorem within a finite time frame. The absence of such a scenario within the provided information doesn't preclude its existence, but it's not explicitly addressed.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify and extract the section or context discussing 'simplest linear learners'.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Within the context of 'simplest linear learners' (obtained from task_1), locate any mention of a 'convergence theorem'. Extract the statement or details of this theorem.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Locate the section on 'computational theory' and find discussions related to 'PAC learning' bounds.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Synthesize the information from task_2 and task_3. Determine if the text provides a specific scenario where the PAC learning requirements are satisfied, but the convergence theorem (for simplest linear learners) fails to reach a solution in finite time. Explicitly state the scenario if found, otherwise indicate its absence.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8225,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 9,
+    "query": "Throughout the book, the author discusses 'Symbolic' and 'Sub-symbolic' approaches. Based on the concluding remarks of the chapters, does the author seem to believe that these two will eventually merge into a single theory, or does he argue they are fundamentally suited for different types of intelligence?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.2,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": false,
+      "time_s": 20.07,
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Find the concluding remarks or summaries of chapters in the book where 'Symbolic' approaches are discussed.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Find the concluding remarks or summaries of chapters in the book where 'Sub-symbolic' approaches are discussed.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Synthesize the author's viewpoints from task_1 and task_2 regarding the future relationship between 'Symbolic' and 'Sub-symbolic' approaches.",
+          "mode": "reasoning",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Based on the synthesized viewpoints, determine if the author believes 'Symbolic' and 'Sub-symbolic' approaches will merge or remain distinct, citing specific arguments.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 10,
+    "query": "Locate the discussion on search strategies where a 'cost-to-go' estimate is combined with the 'cost-accrued' value. How does the book define the mathematical condition that this estimate must satisfy to ensure the shortest path is always discovered, and what happens if this condition is violated?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.22,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": false,
+      "time_s": 36.84,
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Find discussions of search strategies that combine 'cost-to-go' estimate and 'cost-accrued' value.",
+          "mode": "naive",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "What mathematical condition must the 'cost-to-go' estimate satisfy to ensure the shortest path is always discovered?",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "What happens if the mathematical condition for the 'cost-to-go' estimate is violated in the search strategy?",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Synthesize the findings from task_2 and task_3 to provide a complete answer on the condition and the effect of its violation on shortest path discovery.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 11,
+    "query": "The text discusses a method for handling non-linearly separable data by mapping the input into a higher-dimensional space. Identify the specific mathematical functions used to perform this mapping and explain why this approach is computationally preferable to explicitly adding more hidden layers to a neural structure.",
+    "gemini": {
+      "success": false,
+      "time_s": 1.19,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 59.64,
+      "answer": "The text discusses a method for handling non-linearly separable data by mapping the input into a higher-dimensional space. The original query asked for the specific mathematical functions used for this mapping and why it is computationally preferable to explicitly adding more hidden layers to a neural structure.\n\nThe process of mapping data to a higher-dimensional space addresses the problem of non-linearly separable data by enabling the creation of more complex separating surfaces than simple hyperplanes to classify the training data [reference_id: ]. This is achieved through networks with non-linear elements and adjustable weights [reference_id: ]. Essentially, transforming data to a higher dimension makes it easier to find a hyperplane that separates the data [reference_id: ].\n\nUnfortunately, the provided information does not contain the specific mathematical functions or kernels used for mapping input data into a higher-dimensional space to handle non-linearly separable data. Therefore, concrete examples of kernel functions (e.g., Polynomial, Radial Basis Function (RBF), Sigmoid) cannot be listed here, even though these are common examples. While the provided information mentions networks with non-linear elements, it does not give concrete examples of the functions used within those networks to perform the mapping.\n\nSimilarly, the provided context does not contain information regarding the computational advantages of using kernel methods compared to increasing the number of hidden layers in a neural network for handling non-linearly separable data. Therefore, a definitive answer explaining computational preferences cannot be provided.\n\nIn summary, the text emphasizes that mapping data to a higher-dimensional space aims to address non-linear separability by finding a representation where a hyperplane or simpler decision boundary can effectively separate the data. However, the specifics of the functions or kernels used for this mapping, and the computational trade-offs compared to deep learning approaches, are not elaborated upon in the provided information.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify and list the mathematical functions or kernels used for mapping input data into a higher-dimensional space within the context of handling non-linearly separable data.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Summarize how mapping data to a higher-dimensional space addresses the problem of non-linearly separable data.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Explain the computational advantages of using kernel methods (mapping to higher-dimensional space) compared to increasing the number of hidden layers in a neural network for handling non-linearly separable data.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Synthesize the findings from task_1, task_2, and task_3 to provide a comprehensive answer explaining the mapping functions, their purpose, and their computational advantages over deep neural networks.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.9167,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 12,
+    "query": "Locate the discussion regarding the 'expressive power' of models. Identify the specific case where a single-layered arrangement of 'linear thresholds' is logically incapable of representing a parity-check function. How does the book suggest we 'expand the input space' to fix this without adding more layers?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.16,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 35.02,
+      "answer": "The document discusses the 'expressive power' of models, defining it as a model's ability to make arbitrary classifications of patterns. The Vapnik-Chervonenkis (VC) dimension is presented as a measure of this expressive power. A higher VC dimension means the hypothesis set can achieve more dichotomies, but also necessitates a larger training set to ensure good generalization. Specifically, a hypothesis set *H* can achieve any dichotomy of VCdim(H) or fewer patterns in general position. Therefore, to constrain a hypothesis consistent with the training set and achieve good generalization, the number of patterns in the training set should significantly exceed VCdim(H).\n\nA key limitation of single-layered architectures is their inability to represent certain functions. Specifically, a single-layered arrangement of linear threshold units (TLUs) cannot implement the 2-dimensional, even parity function, which is defined as f = x1x2 + x1'x2'. This limitation stems from the fact that the 2-dimensional even parity function is not linearly separable. In a two-dimensional space, no single line can separate the vertices (1,1) and (0,0) from the vertices (1,0) and (0,1).\n\nRegarding how to overcome this limitation *without* adding more layers, the original query asked about 'expanding the input space'. Unfortunately, the provided context does *not* specify how to expand the input space to overcome this limitation within a single layer. While the limitation itself is clearly identified and explained, the suggested solution of input space expansion is not detailed in the available information.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Find discussions about the 'expressive power' of models, especially in the context of neural networks or machine learning.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Identify the specific case where a single-layered arrangement of 'linear thresholds' is logically incapable of representing a parity-check function.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "How does the book suggest we 'expand the input space' to fix the inability of a single-layered arrangement of linear thresholds to represent a parity-check function without adding more layers?",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Synthesize the findings from task 2 and task 3 to provide a comprehensive explanation of the problem and the suggested solution.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 13,
+    "query": "Compare the criteria for removing nodes in a structure built via recursive partitioning versus the criteria for adjusting weights to zero in a structure using a continuous error surface. Is the underlying goal of both operations to reduce the variance of the model, and does the author recommend one over the other for high-noise datasets?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.15,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 29.86,
+      "answer": "The query asks for a comparison of the criteria for removing nodes in a structure built via recursive partitioning versus the criteria for adjusting weights to zero in a structure using a continuous error surface, whether the underlying goal of both operations is to reduce the variance of the model, and if the author recommends one over the other for high-noise datasets.\n\nThe criteria for removing nodes in a structure built via recursive partitioning involve achieving a decrease in the description length. Specifically, after a tree has been grown to zero error, nodes are pruned away (starting at the tips) if doing so results in a decrease in the description length. This technique is employed to select tests and prune a tree after it has been grown to zero error.\n\nThe criteria for adjusting weights in a structure using a continuous error surface, like a neural network employing backpropagation, are more complex. The presence of a sigmoid function is crucial because it is differentiable, allowing for the computation of weight changes. The term `f(1 − f)` influences the magnitude of weight adjustments, where `f` is the output of the sigmoid unit; when `f` is close to 0 or 1, `f(1 − f)` is also close to 0, resulting in minimal weight changes. Weight changes are primarily made within the \"fuzzy\" region surrounding the hyperplane implemented by the sigmoid function. Weight changes are made in the direction of correcting the error, similar to the error-correction and Widrow-Hoff rules. Furthermore, the learning rate constant in simulated annealing is gradually decreased over time. Adjustments for weights going into a sigmoid unit are proportional to the effect these adjustments have on the sigmoid unit's output, represented by the `f (j)(1−f (j))` factor, and they are also proportional to the \"average\" effect that changes in the output of that sigmoid unit will have on the final output, as measured by the δ(j+1)’s, backpropagated through the weights in reverse direction.\n\nWhile both recursive partitioning pruning and neural network weight adjustment can contribute to reducing model variance, their stated primary goals are different. The stated criterion for removing nodes in recursive partitioning is to decrease the description length of the model *after* the tree has been grown to zero error. Weight adjustments in neural networks aim to correct errors and improve the model's ability to map inputs to outputs, guided by the gradient of the error surface (through backpropagation) and influenced by factors like the sigmoid function's behavior and the learning rate. Pruning a tree reduces its complexity, indirectly leading to variance reduction by preventing overfitting. Similarly, techniques like weight decay (regularization) in neural networks explicitly reduce model complexity and variance, though the weight adjustments themselves primarily focus on minimizing the error function. The use of learning rate decay in simulated annealing can also affect the model's variance. Therefore, it is difficult to definitively state whether the underlying goal of both techniques is *solely* to reduce variance. Both methods can indirectly contribute to variance reduction, but other considerations like model interpretability (in the case of trees) or achieving low bias are also relevant.\n\nThe provided context does not offer a direct recommendation for either recursive partitioning or adjusting weights in a continuous error surface structure (like neural networks) specifically for high-noise datasets. The context focuses on the *criteria* used *within* each method, rather than offering a comparative analysis of their performance in noisy situations. The description of pruning in recursive partitioning emphasizes model simplicity, which *could* be helpful in combating overfitting to noise. The discussion of weight adjustment in neural networks mentions simulated annealing and decreasing the learning rate constant, implying a strategy to escape local minima, which *might* be relevant for handling noisy data. However, the text does not directly discuss the method's performance on noisy datasets, nor does it offer any comparative analysis, making it impossible to determine if the author recommends one method over the other for high-noise datasets based on the available information.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "What are the criteria for removing nodes in a structure built via recursive partitioning?",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "What are the criteria for adjusting weights to zero in a structure using a continuous error surface?",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Is the underlying goal of removing nodes in recursive partitioning and adjusting weights in a continuous error surface structure to reduce the variance of the model?",
+          "mode": "reasoning",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Does the author recommend recursive partitioning or adjusting weights in a continuous error surface structure for high-noise datasets?",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.9655,
+        "answer_relevancy": 0.9151,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 14,
+    "query": "Locate the proof or discussion regarding the 'necessity of non-linearity.' Specifically, identify why a system composed of multiple layers of 'linear sum-and-threshold' units--but without a non-linear activation between them--is mathematically equivalent to a single-layer system. What does this imply about the 'depth' of such a structure?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.15,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 49.61,
+      "answer": "A multilayer perceptron (MLP) without non-linear activation functions between layers is mathematically equivalent to a single-layer perceptron because successive linear transformations can be collapsed into a single linear transformation. This equivalence negates any advantage typically gained from increasing the depth of the network.\n\nTo illustrate this, consider a two-layer network. The first layer performs a linear transformation on the input \\( X \\) resulting in \\( X^{(1)} \\), represented as \\( X^{(1)} = W^{(1)}X \\), where \\( W^{(1)} \\) is the weight matrix of the first layer. The second layer performs another linear transformation on \\( X^{(1)} \\) to produce the final output \\( f \\), represented as \\( f = W^{(2)}X^{(1)} \\), where \\( W^{(2)} \\) is the weight matrix of the second layer. Substituting the first equation into the second, we get \\( f = W^{(2)}(W^{(1)}X) = (W^{(2)}W^{(1)})X = W_{effective}X \\), where \\( W_{effective} = W^{(2)}W^{(1)} \\) is a single weight matrix. This demonstrates that the two-layer network is functionally equivalent to a single-layer perceptron with a weight matrix \\( W_{effective} \\). The same principle applies to MLPs with more than two layers; successive linear transformations can always be combined into one.\n\nThis equivalence implies that the \"depth\" of such a neural network does not increase its representational power. Even with multiple layers, the entire network can be reduced to a single linear transformation, nullifying the benefits of a deep architecture. Stacking linear layers simply results in another linear layer.\n\nTherefore, non-linear activation functions are essential in deep learning to enable neural networks to learn complex, non-linear relationships within the data. Without non-linearities, the network output, `f`, is not continuously differentiable with respect to the weighted sums due to the nature of threshold functions. Small changes in the weighted sums typically do not affect `f`, and when `f` does change, it changes abruptly (e.g., from 1 to 0). To address this, threshold functions are often replaced by differentiable sigmoid functions, which can be thought of as implementing a \"fuzzy\" hyperplane.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Explain why a multilayer perceptron (MLP) without non-linear activation functions between layers is equivalent to a single-layer perceptron.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Provide a mathematical proof or demonstration of the equivalence between a multi-layer linear perceptron and a single-layer perceptron.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Discuss the implications of this equivalence on the 'depth' of a neural network.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Why are non-linear activation functions essential for deep learning?",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Synthesize the findings from tasks 1-4 to provide a comprehensive answer regarding the necessity of non-linearity in multilayer perceptrons and its implications for network depth.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.96,
+        "answer_relevancy": 0.795,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 15,
+    "query": "Find the discussion concerning a learner that is restricted to a 'fixed-length vector' representation. Contrast this with a learner that can represent hypotheses as 'variable-length logical formulas.' According to the text, which of these structures has a higher 'expressive power,' and what is the specific cost of that power in terms of the search space size?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.24,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 24.59,
+      "answer": "The query asks to compare a learner restricted to a 'fixed-length vector' representation with one capable of representing hypotheses as 'variable-length logical formulas,' focusing on their expressive power and the cost of that power in terms of search space size.\n\nFirst, consider the learner that uses 'fixed-length vector' representations. The text describes input vectors used to represent data in machine learning. The components of these vectors can be real-valued, discrete-valued, or categorical. While the attributes can be unordered by listing their names and values, the vector form typically assumes an ordered set of attributes defined implicitly by a structure like `[]`. This implies that the dimensionality (number of attributes) is pre-defined and fixed.\n\nNext, consider the learner that uses 'variable-length logical formulas.' This learner, discussed in the context of Inductive Logic Programming (ILP), can represent hypotheses as logic programs and rule sets. Logic programs can determine the truth value of predicates. The text gives the example of learning a function `Nonstop(x,y)` that is True if cities `x` and `y` have a nonstop flight and False otherwise. Background knowledge, such as `Hub(A)` and `Satellite(A1,A)`, can be incorporated. A possible induced program is:\n\n```\nNonstop(x,y) :- Hub(x), Hub(y)\n:- Satellite(x,y)\n:- Satellite(y,x)\n```\n\nThis program would return True if both cities are hub cities or if one is a satellite of the other.\n\nAccording to the provided text, the learner that represents hypotheses as 'variable-length logical formulas' has a higher expressive power than the learner restricted to 'fixed-length vector' representations. The fixed-length vector approach is limited by its pre-defined dimensionality and inability to easily represent relationships between entities or incorporate background knowledge. Conversely, the ILP approach allows for variable complexity in the number of rules/clauses and their structure, can represent relationships between entities (e.g., `Nonstop(x,y)` related to `Hub` and `Satellite`), and can incorporate background knowledge to build more complex hypotheses.\n\nThe cost associated with this higher expressive power of variable-length logical formulas is a significantly larger and more complex search space compared to the bounded space of fixed-length vectors.\n\n*   **Fixed-Length Vectors:** The pre-defined number of attributes in a fixed-length vector creates a bounded search space. If each attribute can take a finite number of values, the total number of possible vectors is limited, simplifying the search process.\n\n*   **Variable-Length Logical Formulas:** The search space is far more extensive due to:\n\n    1.  **Variable Number of Clauses/Rules:** The learner can explore different numbers of clauses or rules, which leads to a combinatorial explosion in possible hypotheses.\n\n    2.  **Variable Complexity of Clauses:** The complexity of each clause (predicates, variables, relationships) can also vary, further expanding the search space.\n\n    3.  **Combinatorial Explosion:** The combinations of clauses, predicates, variables, and their relationships within logical formulas generate a combinatorial explosion that the search algorithm must navigate.\n\n    4.  **Background Knowledge Interaction:** Integrating background knowledge increases the search space because new rules can use prior knowledge and must be incorporated into existing hypotheses.\n\n    5.  **Potential for Infinite Hypotheses:** There is a theoretical possibility of generating infinitely many hypotheses when combining a variable set of rules, a variable length for each rule, and the use of background knowledge.\n\nIn summary, the higher expressive power of variable-length logical formulas comes at the cost of a significantly larger and more complex hypothesis space. This increased search space makes learning more challenging and computationally expensive, requiring sophisticated search heuristics and pruning strategies.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify text segments describing a learner restricted to 'fixed-length vector' representation.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Identify text segments describing a learner that can represent hypotheses as 'variable-length logical formulas'.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Determine which representation ('fixed-length vector' vs. 'variable-length logical formulas') has higher 'expressive power' according to the provided text.",
+          "mode": "reasoning",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Identify the specific cost associated with the higher 'expressive power' in terms of search space size.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8929,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 16,
+    "query": "There is a transition in the text from a system that seeks to maximize the 'margin' between classes to a system that seeks to minimize the 'sum of squared differences' between predicted and actual values. Locate the section where the author explains why the latter is more appropriate for 'regression' tasks, even though it can be adapted for 'classification' by applying a nonlinear transform to the output.",
+    "gemini": {
+      "success": false,
+      "time_s": 4.73,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 16.16,
+      "answer": "The text transitions from a system that maximizes the 'margin' between classes to one that minimizes the 'sum of squared differences' in the context of training a Threshold Logic Unit (TLU), particularly when dealing with non-linearly separable training sets. When a training set is not linearly separable, standard error-correction procedures struggle because they continuously try to correct errors, preventing the hyperplane from settling into an acceptable position. To address this, the Widrow-Hoﬀ procedure is introduced as a method to minimize the mean-squared-error, even if it doesn't converge to zero error on non-linearly separable problems. However, the text also cautions that a mean-squared-error criterion may sometimes yield unsatisfactory results because it can favor many small errors over a few large ones. An alternative approach involves error correction with a continuously decreasing learning rate constant, *c*, leading to continually decreasing changes to the hyperplane.\n\nThe author explicitly connects the minimization of the 'sum of squared differences' to 'regression' tasks. Specifically, the Widrow-Hoﬀ procedure is presented as a way to find weights that minimize a squared-error function between pattern labels and the dot product computed by a TLU. This procedure seeks to minimize the mean-squared error between the actual and desired values of this dot product. In essence, the squared error quantifies the difference between the predicted continuous value (the output of the TLU's dot product) and the actual continuous target value, which is a hallmark of regression problems.\n\nRegarding the adaptation of the 'sum of squared differences' method for 'classification' using a nonlinear transform, the provided context **does not contain** an explanation of how this adaptation is achieved. While it's a common practice in machine learning to apply nonlinear transformations to the output of regression models for classification purposes, the text unfortunately does not elaborate on the specific mechanisms or methods the author has in mind for this adaptation. Therefore, the precise way in which the author envisions using a nonlinear transform for classification in conjunction with minimizing the sum of squared differences remains undefined within the provided information.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Locate the section of the text that discusses the transition from maximizing 'margin' to minimizing 'sum of squared differences'.",
+          "mode": "naive",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Identify where the author explains the appropriateness of minimizing 'sum of squared differences' for 'regression' tasks.",
+          "mode": "naive",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Find the explanation of how the 'sum of squared differences' method can be adapted for 'classification' using a nonlinear transform.",
+          "mode": "naive",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Synthesize the findings from task_2 and task_3 to provide a coherent explanation of why minimizing 'sum of squared differences' is suitable for regression and adaptable to classification via a nonlinear transform, as described by the author.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.7895,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 17,
+    "query": "Find the part of the book that explains why a system with 1,000 layers of simple linear additions is no more powerful than a system with just one layer.",
+    "gemini": {
+      "success": false,
+      "time_s": 1.15,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 32.34,
+      "answer": "A system with 1,000 layers of simple linear additions is no more powerful than a system with just one layer because stacking multiple linear layers in a neural network does not increase the model's representational power. The key reason is that a sequence of linear transformations can always be collapsed into a single linear transformation.\n\nIn essence, no matter how many linear layers are stacked one after another, the entire operation of the network can be represented by a single matrix multiplication. A deep network composed exclusively of these linear layers, therefore, offers no representational advantage over a single linear layer. To learn complex, non-linear relationships, neural networks introduce non-linear activation functions between the linear layers, which is what gives them their power.\n\nWhile some sub-tasks were unable to provide further details on the concept of linear transformations and their composition, or explicitly confirm that \"linear transformations preserve linearity,\" the core idea that sequential linear transformations can be reduced to a single linear transformation sufficiently explains the limitation of deep linear networks.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Explain the limitations of stacking multiple linear layers in a neural network.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "linear transformations preserve linearity; stacking linear functions is equivalent to a single linear transformation",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Search for content explaining the concept of linear transformations and their properties when composed.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Synthesize the results from tasks 1, 2, and 3 to explain why a deep linear network is no more powerful than a shallow linear network.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.7778,
+        "answer_relevancy": 0.8248,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 18,
+    "query": "Find the specific mathematical derivation which proves that a structure composed of multiple successive layers of 'weighted sum and threshold' units is functionally identical to a single-stage system if no non-linear transformation is applied between those stages. What are the implications of this proof for the 'expressive power' of hierarchical systems as discussed in the early chapters?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.2,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 47.41,
+      "answer": "The original query asked for the mathematical derivation proving that a multi-layer 'weighted sum and threshold' structure is functionally identical to a single-stage system without non-linear transformations between stages, and the implications of this proof for the 'expressive power' of hierarchical systems as discussed in early chapters.\n\n**Mathematical Derivation (Or Lack Thereof):**\n\nUnfortunately, I am unable to provide the specific mathematical derivation that proves a multi-layer 'weighted sum and threshold' structure is functionally equivalent to a single-layer structure *without non-linear transformations between stages*. The retrieved documents focus on the general structure and training of neural networks, threshold logic units, and related algorithms, but do not contain the specific mathematical proof itself. Thus, the following analysis is based on the *assumption* that such a proof exists and operates under the conditions described in the query.\n\n**Implications for Expressive Power:**\n\nBased on this assumption and the supplemental information, let's explore the implications for the expressive power of hierarchical systems.\n\nThe (hypothetical) proof states that a multi-layer network using only 'weighted sum and threshold' operations is equivalent to a single-layer network with only *linear* operations (i.e., without non-linearities or activation functions). This means that for any function computed by the multi-layer network, there exists a single-layer linear model computing the exact same function.\n\nThis has profound implications for the expressive power of the network. Expressive power refers to the range of functions that a given model can represent. If the proof is valid, a multi-layer network built only from 'weighted sum and threshold' units, where the stages are connected linearly, cannot compute anything beyond what a single-layer linear model can compute. This severely restricts the representational capacity and negates the potential benefits of having multiple layers. Depth, in this case, provides no advantage.\n\n**Connection to Threshold Logic Units (TLUs) and Feature Space Partitioning:**\n\nEarly discussions on the expressive power of hierarchical systems, particularly concerning Threshold Logic Units (TLUs), shed light on the importance of the first layer in partitioning the feature space. The argument is that the first layer of TLUs partitions the input feature space, ensuring that no two differently labeled vectors are in the same region (i.e., mapped to the same output from the first-layer units). If this initial partitioning is inadequate, subsequent layers cannot correct it, and the final outputs will not align with the labeled training set.\n\nSynthesizing this with the hypothetical proof, we can see a connection. While the TLU discussion emphasizes the importance of the initial partitioning performed by the first layer, the proof suggests that subsequent linear operations (weighted sums) and thresholds can't improve upon that initial partitioning in any way that a simple linear model couldn't achieve directly. The first layer essentially converts the feature space into a new space where a linear separation might be possible. However, without non-linearities *between* layers, the subsequent layers are simply performing linear transformations on this already transformed feature space. The overall transformation will, at best, be equivalent to the transformation performed by a single-layer linear model.\n\n**Overall Impact and Limitations:**\n\nThe combination of the (hypothetical) proof and the TLU discussion suggests that hierarchical systems based solely on weighted sums and thresholds (or linear operations followed by thresholds) are fundamentally limited in expressive power. The hierarchical structure *does not* provide any additional expressive power compared to a simpler, non-hierarchical (linear) model.\n\nIt is crucial to acknowledge the limitations of this analysis, given that the specific mathematical proof is unavailable. The validity of the proof, the precise definition of \"threshold\" (e.g., a hard threshold, sigmoid, ReLU), and the nature of the weighted sum all influence the conclusion. More complex non-linearities, especially between the stages of calculation, would invalidate the proof and potentially allow the hierarchical system to achieve greater expressive power. For example, if a sigmoid or ReLU activation function were used between the weighted sum and the threshold unit, the result would not necessarily be equivalent to a single layer network without non-linearities.\n\n**Conclusion:**\n\nIn summary, assuming the validity of the hypothetical proof, multi-layer 'weighted sum and threshold' networks without inter-layer non-linearities are no more expressive than a simple linear model. This limitation aligns with early discussions on TLUs that highlighted the importance and constraints of the first layer's feature space partitioning. However, the specific details of the proof and the precise definitions of the terms involved (particularly the 'threshold') significantly affect the conclusions. The absence of inter-layer non-linearities is the critical factor in restricting the expressive power of the hierarchical system.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Mathematical derivation proving a multi-layer 'weighted sum and threshold' structure is functionally equivalent to a single-layer structure without non-linear transformations between stages.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Mathematical derivation proving a multi-layer 'weighted sum and threshold' structure is functionally equivalent to a single-layer structure without non-linear transformations between stages. simplified explanation.",
+          "mode": "naive",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Implications of the proof (multi-layer 'weighted sum and threshold' equivalent to single-layer without non-linearities) for the expressive power of hierarchical systems.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Early discussions on the expressive power of hierarchical systems.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Synthesize the mathematical proof and the discussion of expressive power to explain how the proof impacts the expressive power of hierarchical systems.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 19,
+    "query": "Identify the methodology used to resolve classification failures in datasets that are not separable by a single hyperplane without increasing the number of learning parameters. How does the text describe the process of projecting the input space into a higher-dimensional feature space, and why is this technically considered a 'fixed' rather than 'adaptive' transformation in the context of phi-functions?",
+    "gemini": {
+      "success": false,
+      "time_s": 4.82,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 55.42,
+      "answer": "This response addresses the problem of classifying non-linearly separable datasets without increasing the number of learning parameters, and the related concept of projecting input data into higher-dimensional feature spaces. The response also addresses why a specific projection might be considered \"fixed\" rather than \"adaptive.\"\n\n**Methodologies for Handling Non-Linearly Separable Data without Increasing Learning Parameters:**\n\nWhen a dataset cannot be separated by a single hyperplane, standard linear classifiers, such as single Threshold Logic Units (TLUs), will fail. The provided context identifies three methodologies to address this problem without increasing the number of learning parameters:\n\n1.  **Averaging Weight Vector:** Duda [Duda, 1966] proposed tracking the average value of the weight vector during the error correction process. This average weight vector is then used to define a separating hyperplane. The rationale is that, while individual weight vectors may lead to misclassifications due to non-linear separability, the averaged weight vector provides a more stable and generalized solution that performs reasonably well.\n\n2.  **Pocket Algorithm:** Gallant [Gallant, 1986] introduced the \"pocket algorithm.\"  This algorithm stores the weight vector that has maintained the longest unbroken run of successful classifications in a \"pocket\" [Hertz, Krogh, & Palmer, 1991, p. 160]. After a chosen time, the algorithm uses the weight vector from the \"pocket.\" The idea is that this weight vector, having demonstrated consistent performance, will minimize errors on the training set. It essentially memorizes the weights that have previously shown strong performance.\n\n3.  **Alternative Methods:** John [John, 1995] and Marchand & Golea [Marchand & Golea, 1993] proposed other methods. Marchand & Golea [Marchand & Golea, 1993] claim their approach outperforms the pocket algorithm. Unfortunately, the details of these alternative methods are not provided in the available context.\n\n**Projecting Input Space into Higher-Dimensional Feature Space:**\n\nWhile the text doesn't explicitly detail the process of projecting the input space into a higher-dimensional feature space, it implicitly addresses this concept through the use of TLUs and layered networks. A single TLU divides the input space by a hyperplane, with the weight vector (*W*) determining the hyperplane's orientation and \\(w_{n+1}\\) determining its position relative to the origin [37]. When the training set is not linearly separable, the text mentions finding a \"best\" separating hyperplane, suggesting using the Widrow-Hoff procedure to minimize mean-squared error or tracking the average weight vector [44].\n\nFor non-linearly separable training sets, more complex separating surfaces, which can be achieved using networks of TLUs, are needed [46]. By combining multiple TLUs in layered networks, more complex decision boundaries can be formed [46]. Two-layer networks can implement k-term DNF functions, with the hidden layer implementing the terms and the output unit implementing the disjunction of these terms [47]. Any Boolean function can be implemented by some two-layer network of TLUs [47].\n\nThe use of multiple layers of TLUs, while not explicitly stated as \"projecting into a higher-dimensional feature space,\" serves a similar purpose. Each layer effectively transforms the input data, creating more complex representations that can ultimately lead to linear separability in the final layer's output. This is analogous to projecting the data into a higher dimension where a hyperplane (or the equivalent realized by the final TLU) can separate the data.\n\n**Fixed vs. Adaptive Transformations in the Context of Phi-Functions:**\n\nThe provided context does not contain information about phi-functions and their use in projecting data into higher-dimensional spaces, nor does it explain why projecting the input space into a higher-dimensional feature space would be considered a 'fixed' rather than 'adaptive' transformation in the context of phi-functions. Therefore, it is impossible to answer this part of the original query with the information provided.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify methodologies used to resolve classification failures in datasets that are not separable by a single hyperplane without increasing the number of learning parameters.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "How does the text describe the process of projecting the input space into a higher-dimensional feature space for non-linearly separable data?",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "What are phi-functions and how are they used to project data into higher-dimensional spaces?",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Why is projecting the input space into a higher-dimensional feature space technically considered a 'fixed' rather than 'adaptive' transformation in the context of phi-functions?",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Synthesize the information from previous tasks to provide a comprehensive answer to the original query.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.9677,
+        "answer_relevancy": 0.8457,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 20,
+    "query": "Locate the discussion contrasting a system that optimizes for the 'maximum margin of separation' versus one that optimizes for the 'minimum squared difference' between the output and the label. Under what specific conditions of environmental noise does the author suggest the 'squared difference' approach becomes mathematically problematic compared to the margin-based approach?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.21,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 27.83,
+      "answer": "This response addresses the comparison between systems optimizing for 'maximum margin of separation' and those optimizing for 'minimum squared difference', and the conditions under which the 'squared difference' approach becomes problematic due to environmental noise.\n\nThe provided document contrasts systems that use the 'minimum squared difference' approach with the 'maximum margin of separation' approach, particularly when dealing with non-linearly separable training sets. Several systems utilize the 'minimum squared difference' approach:\n\n*   **Widrow-Hoff Procedure:** This procedure adjusts weights to minimize the mean-squared error between the actual and desired values of the dot product. It aims to find weights that minimize a squared-error function between pattern labels and the dot product computed by a Threshold Logic Unit (TLU).\n*   **Backpropagation Method:** This method adjusts each weight in the network to minimize the error function on the final output of the network. The error is defined as the squared difference between the desired response and the actual response. It uses gradient descent to minimize the squared error over the entire training set.\n*   **Temporal-Difference (TD) Learning:** These methods base learning on the difference between successive predictions rather than on the difference between the actual value and the prediction, and attempt to minimize the squared error between `z` and `f(Xi, W)` by gradient descent.\n\nWhen the training set is not linearly separable (which can occur due to environmental noise), the 'squared difference' approach, exemplified by the **Widrow-Hoff procedure**, can encounter issues. The document notes that a mean-squared-error criterion often gives unsatisfactory results because it prefers many small errors to a few large ones. This characteristic makes it less robust in handling noisy or non-linearly separable data compared to a 'maximum margin of separation' approach. Essentially, the squared-error approach tries to fit the data as closely as possible, including the noise, rather than finding a clear separating boundary.\n\nUnfortunately, the document provides limited information about systems that explicitly optimize for the 'maximum margin of separation'. Therefore, a more detailed comparison of the mathematical properties and performance characteristics of 'maximum margin' systems versus 'minimum squared difference' systems under varying noise conditions is not possible based on the available information. However, the document does highlight the weakness of the mean-squared-error criterion in the presence of noise and non-linearity, suggesting that a margin-based approach could potentially offer a more robust solution by focusing on creating a clear separation between classes rather than minimizing the error on individual data points.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify systems optimizing for 'maximum margin of separation'.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Identify systems optimizing for 'minimum squared difference' between output and label.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Find discussions contrasting systems optimizing for 'maximum margin of separation' versus 'minimum squared difference'.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Under what conditions of environmental noise does the 'squared difference' approach become mathematically problematic compared to the margin-based approach?",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Synthesize the findings from previous tasks to provide a concise answer to the original query.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.9524,
+        "answer_relevancy": 0.8785,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 21,
+    "query": "Examine the sections detailing gradient-based optimization and identify the specific state where a processing unit's internal sum becomes so large that its output gradient effectively vanishes. How does this 'saturation' phenomenon impact the speed of weight updates in deep architectures, and what initialization strategy does the author suggest to mitigate this at the start of training?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.21,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 37.05,
+      "answer": "The provided documents describe gradient-based optimization techniques used in neural networks, particularly focusing on the backpropagation algorithm and the challenges posed by the \"saturation\" phenomenon, also known as the vanishing gradient problem. The document explains how this phenomenon arises and impacts the speed and effectiveness of weight updates in deep architectures. However, the provided materials do *not* include a discussion of any specific initialization strategies to mitigate this issue.\n\n**Gradient-Based Optimization and Backpropagation:** The document details backpropagation as a gradient descent method used to train multi-layer, feedforward networks. The goal is to adjust each weight to minimize an error function related to the network's final output. The weight adjustment process is defined as:  `W(j)_i ← W(j)_i + c(j)_i δ(j)_i X(j-1)`, where `W(j)_i` is the weight vector, `c(j)_i` is the learning rate constant, `δ(j)_i` is a sensitivity measure, and `X(j-1)` is the input from the previous layer. The partial derivative of the error (ε) with respect to a weight vector (W(j)_i) is given by `∂ε/∂W(j)_i = (∂ε/∂s(j)_i) (∂s(j)_i/∂W(j)_i)`, where `s(j)_i` is the weighted sum input to the i-th threshold unit in the j-th layer, which simplifies to `∂ε/∂W(j)_i = (∂ε/∂s(j)_i) X(j-1)`. The term `(d-f) ∂f/∂s(j)_i` is denoted as `δ(j)_i`, which indicates the sensitivity of the network's squared error to changes in the input of each threshold function.\n\n**Saturation Condition (Vanishing Gradient):** Saturation occurs when a processing unit's internal sum becomes excessively large. This leads to a vanishing output gradient, particularly when using sigmoid activation functions.  Specifically, when the final output, *f*, approaches either 0 or 1, adjustments diminish because they have a vanishing effect on *f*. The sigmoid function, *f(s) = 1 / (1 + e^-s)*, contributes significantly to this problem.  The derivative, `∂f/∂s = f(1 - f)`, approaches 0 when *f* is close to 0 or 1.  Therefore, the term *f*(1 - *f*) in the backpropagation weight adjustment can vary from 0 to 1. When *f* is 0 or 1, *f*(1 - *f*) is also 0. The maximum value of *f*(1 - *f*) is 1/4 when *f* is 1/2 (when the input to the sigmoid is 0).  The sigmoid can be seen as implementing a \"fuzzy\" hyperplane, and for patterns far from this hyperplane, *f*(1 - *f*) has a value close to 0, and the backpropagation rule makes little or no change to the weight values regardless of the desired output.\n\n**Impact on Weight Updates (Speed and Effectiveness):**  The saturation phenomenon, characterized by vanishing gradients, hinders both the speed and effectiveness of weight updates, especially in deep learning architectures. Slow learning or complete stagnation occurs because the gradient, which guides the optimization process, becomes vanishingly small, resulting in minuscule weight updates. In deep networks, this is exacerbated, as gradients backpropagated from the output layer to earlier layers become even smaller, effectively halting learning in the initial layers. This often leads to suboptimal solutions as the network becomes \"stuck\" in local minima or plateaus.  The network fails to learn meaningful representations from the data, rendering the training process largely ineffective, especially in deeper networks.\n\n**Initialization Strategy:** The supplied documentation **does not contain** information regarding a specific initialization strategy to mitigate the saturation problem at the beginning of the training process. Therefore, I cannot provide any details about such a strategy based on the provided context.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Locate and extract sections discussing gradient-based optimization techniques.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Identify the specific condition or state within gradient-based optimization where a processing unit's internal sum becomes excessively large, leading to a vanishing output gradient (saturation).",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Analyze how the saturation phenomenon (vanishing gradient) affects the speed and effectiveness of weight updates in deep learning architectures.",
+          "mode": "reasoning",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Extract the author's suggested initialization strategy to mitigate the saturation problem at the beginning of the training process.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Summarize the identified saturation condition, its impact on weight updates, and the proposed initialization strategy.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.9024,
+        "answer_relevancy": 0.8024,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 22,
+    "query": "In the discussion of navigating an error surface, describe the scenario where a learner encounters a 'plateau' or a 'narrow ravine.' How does the author explain the failure of standard directional updates in these regions, and what physical-inspired 'memory' term is added to the update rule to help the parameters maintain velocity through these areas?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.18,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 51.56,
+      "answer": "When navigating an error surface, a learner can encounter two problematic scenarios: plateaus and narrow ravines.\n\nA **plateau** is a flat region in the error function. If the learner finds itself in a shallow and narrow error-function valley within the plateau (essentially a weak local minimum), the problem isn't sustained, as a subsequent large correction will likely dislodge the learner from it.\n\nA **narrow ravine** is characterized by the error function forming a long, narrow valley. This presents a more significant challenge. The gradient is very steep on the sides of the ravine but exhibits a small magnitude along the ravine's length. Standard directional updates fail here because they tend to oscillate between the steep sides of the ravine, preventing substantial progress along its length.\n\nRegarding the physical-inspired 'memory' term added to the update rule to help the parameters maintain velocity through these areas, I am unable to provide an answer based on the provided information.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Describe the scenario where a learner encounters a 'plateau' in the context of navigating an error surface.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Describe the scenario where a learner encounters a 'narrow ravine' in the context of navigating an error surface.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "How does the author explain the failure of standard directional updates in 'plateau' and 'narrow ravine' regions of an error surface?",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "What physical-inspired 'memory' term is added to the update rule to help the parameters maintain velocity through 'plateau' and 'narrow ravine' areas?",
+          "mode": "local",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.9091,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 23,
+    "query": "Summarize the 'Future of Machine Learning' as described in the closing pages. Does the author anticipate the 'Deep Learning' revolution, or does he focus more on the 'Integration of Logic and Neural' methods?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.14,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 33.06,
+      "answer": "Based on the provided document chunks, it is impossible to provide a summary of the 'Future of Machine Learning' as described in the closing pages, because there is no explicit section dedicated to this topic in the provided text.\n\nHowever, we can compare the author's emphasis on 'Deep Learning' versus the 'Integration of Logic and Neural' methods within the available context. The analysis shows a significant difference in focus. 'Deep Learning' is not discussed at all in the provided material, so its potential future impact is not addressed.\n\nIn contrast, the author *does* discuss synergies between Neural Network and Knowledge-Based Methods [4.5], which falls under the umbrella of 'Integration of Logic and Neural' methods. The text mentions rule-generating procedures and how expert-provided rules can aid neural net training and vice-versa, referencing \"[Towell & Shavlik, 1992]\" and \"[Towell, Shavlik, & Noordweier, 1990]\" [4.5]. It further explains that in explanation-based learning, evaluable predicates can correspond to components of the input pattern vector in neural networks, with predicates in the domain theory corresponding to hidden units [12.4].\n\nTherefore, the author appears to anticipate more potential in the 'Integration of Logic and Neural' methods, at least within the scope of the provided document excerpts, as 'Deep Learning' is entirely absent from the discussion. This conclusion rests on the demonstrable lack of information about Deep Learning and the presence of discussion about, and therefore emphasis on, the integration of logic and neural network approaches, though it cannot be said whether this focus directly relates to a dedicated discussion of the *future* of machine learning.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Summarize the closing pages of the document focusing on the section about the future of machine learning.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Identify if the author discusses 'Deep Learning' and its potential future impact on machine learning.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Identify if the author discusses the 'Integration of Logic and Neural' methods and their potential future impact on machine learning.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Compare the author's emphasis on 'Deep Learning' versus 'Integration of Logic and Neural' methods in the context of the future of machine learning, based on the findings from tasks 2 and 3.",
+          "mode": "reasoning",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Synthesize the findings from task 1 and task 4 to provide a concise summary answering the original query.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.8333,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 24,
+    "query": "Contrast a system that searches through a space of 'fixed-length numerical vectors' with one that searches through a space of 'variable-length logical literals.' What are the specific computational challenges of the latter regarding the size of the search space, and how does the author suggest using 'bottom-up' grounding to limit the search?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.19,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 108.68,
+      "answer": "This response contrasts systems that search through spaces of fixed-length numerical vectors and variable-length logical literals, discusses the computational challenges of the latter, and examines search-limiting strategies.\n\n**Fixed-Length Numerical Vectors vs. Variable-Length Logical Literals**\n\nA system searching through a space of fixed-length numerical vectors typically employs a distance metric (e.g., Euclidean distance) to compare vectors and form clusters.  A common clustering method involves:\n\n1.  **Initialization:** Beginning with *R* randomly chosen cluster seekers, denoted as C1, ..., CR. These cluster seekers are points in the n-dimensional space and will be adjusted to move toward the center of clusters of patterns.\n2.  **Pattern Presentation:** Presenting the unlabeled patterns from the training set, denoted as Ξ, to the algorithm one by one.\n3.  **Cluster Assignment and Adjustment:** For each pattern, *Xi*, finding the closest cluster seeker, *Cj*, and moving it closer to *Xi* according to the rule: *Cj ← (1 − αj)Cj + αjXi*, where αj is a learning rate parameter for the j-th cluster seeker.\n4.  **Learning Rate Adjustment:** Refinements to the procedure involve adjusting the cluster seekers to move less as training proceeds. For instance, each cluster seeker, *Cj*, can have a mass, *mj*, equal to the number of times it has moved. As a cluster seeker's mass increases, it moves less toward a pattern. For example, αj can be set to *1/(1 + mj)*, along with the rule *mj ← mj + 1*. This adjustment ensures that a cluster seeker is always at the center of gravity (sample mean) of the patterns toward which it has moved so far.\n5.  **Convergence and Classification:** Once the cluster seekers have converged, the classifier implied by the now-labeled patterns in Ξ can be based on a Voronoi partitioning of the space, based on distances to the various cluster seekers. Such a classification can be implemented by a linear machine.\n\nIn contrast, a system searching through a space of variable-length logical literals, as seen in Inductive Logic Programming (ILP), operates by constructing and refining logical expressions to fit a set of training examples. The search space consists of terms, which are functions written as a conjunction of literals (e.g., `l1l2...lk`). A literal is a Boolean variable or its negation. The system manipulates these terms to form clauses and programs. The generic ILP algorithm searches for a \"consistent program\" that covers all positive instances and no negative instances in the training data. This search involves generalization and specialization of logic programs. Generalization involves making the program cover more examples, achieved by replacing terms with variables, removing literals from a clause's body, or adding a clause to the program. Specialization involves making the program cover fewer examples, achieved by replacing variables with terms, adding literals to a clause's body, or removing a clause from the program. Clauses can be ordered based on their generality; a clause `c1` is more specific than `c2` if `c2 |= c1`. This ordering helps structure the search, creating a \"refinement graph\" similar to a version space. Practical ILP systems limit the possible literals to add, considering literals from background knowledge, literals using arguments from the clause head, literals introducing new variables, literals equating head variables with other variables or background terms, and literals that are the same as the head of the clause (for recursion).\n\n**Computational Challenges with Variable-Length Logical Literals**\n\nSearching through a space of variable-length logical literals presents significant computational challenges due to the vastness of the search space. The number of possible terms (conjunctions of literals) grows exponentially with the number of variables. Specifically, with *n* variables, there are 3^*n* possible terms.  As the length of the logical literals increases, the number of possible combinations grows rapidly, leading to a combinatorial explosion. Due to the massive search space, brute-force search is impractical. Efficient search strategies such as heuristic search, version space learning, and refinement graphs are needed to navigate the space effectively. In Inductive Logic Programming (ILP), a variety of biases are needed to constrain the search and make it tractable. This includes language biases that restrict the program to Horn clauses, disallow recursion, or limit the use of functions.  The algorithm must balance generalization and specialization to find a consistent program.\n\n**Search-Limiting Strategies**\n\nThe provided documents do not specify how to use \"bottom-up\" grounding to limit the search when using \"variable-length logical literals\".\n\n**Comparison of Search Methods and Solutions to Challenges**\n\nThe fixed-length numerical vector search uses a clustering approach in a continuous, Euclidean space, relying on numerical vectors and the Euclidean distance metric. The goal is to group similar patterns through iterative refinement of cluster centers. The challenge of navigating a high-dimensional space is addressed by using a limited number of cluster seekers and gradually decreasing the learning rate.\n\nThe variable-length logical literal search, on the other hand, operates in a discrete, logical space using logical expressions. The search paradigm involves constructive generalization and specialization to induce a consistent logic program. The primary challenge is the exponential growth of the hypothesis space. This is tackled by:\n\n*   **Generalization and Specialization**: The process iteratively modifies existing hypotheses, rather than exploring the space randomly.\n*   **Ordering Clauses**: Clauses are partially ordered using the \"more specific than\" relation `c2 |= c1`. The \"refinement graph\" is used, which is similar to a version space.\n*   **Restricting Literals**: Practical ILP systems limit the possible literals to add, considering:Literals from background knowledge.Literals using arguments from the clause head.Literals introducing new variables.Literals equating head variables with other variables or background terms.Literals that are the same as the head of the clause (for recursion).\n*   **Biases**: The author suggests using a variety of biases to constrain the search and make it tractable. This includes language biases that restrict the program to Horn clauses, disallow recursion, or limit the use of functions.\n*   **Focus on Consistency**: The approach actively seeks a \"consistent program\", guiding the search towards hypotheses that fit the training data.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Explain how a system searches through a space of 'fixed-length numerical vectors'.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Explain how a system searches through a space of 'variable-length logical literals'.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "What are the specific computational challenges of searching through 'variable-length logical literals', focusing on the size of the search space?",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "How does the author suggest using 'bottom-up' grounding to limit the search when using 'variable-length logical literals'?",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Compare the search methods described in task_1 and task_2, highlighting the differences and relating them to the challenges identified in task_3 and solutions suggested in task_4.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.9859,
+        "answer_relevancy": 0.8341,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 25,
+    "query": "Identify the 'Naive' assumption used in statistical modeling where every input feature is treated as if it has no relationship with any other feature. In what specific cases does the author acknowledge that this assumption is fundamentally false, yet the system still produces remarkably accurate results?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.22,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 34.5,
+      "answer": "The 'Naive' assumption in statistical modeling treats each input feature as if it has no relationship with any other feature; it presumes conditional independence between features given the class. Mathematically, this can be represented as: `p(X | i) = p(x1 | i)p(x2 | i) · · · p(xn | i)`, where `X` is the input vector, `i` represents the category, and `x1, x2, ..., xn` are the individual features. This simplifies calculations significantly. Another formula based on conditional independence is:  `log p(xi | 1) / p(xi | 2) = xi log pi / qi + (1 − xi) log (1 − pi) / (1 − qi) = xi log pi(1 − qi) / qi(1 − pi) + log (1 − pi) / (1 − qi)`, which further emphasizes the binary component conditional independence.\n\nThe Naive assumption is often violated in real-world scenarios because features are rarely truly independent. Some situations where the violation of this assumption leads to inaccuracies include:\n\n*   **General Dependence:** The very definition of the Naive assumption implies its frequent violation since real-world features often exhibit dependencies.\n*   **Noise in Data:** When data contains noise, models relying on the Naive assumption can \"fit the noise,\" leading to inaccurate generalizations. This is because the model fails to account for potential feature dependencies that could help distinguish signal from noise.\n*   **Decision Tree Issues (Subtree Replication):**  In the context of decision trees (or models that operate similarly), issues such as subtree replication and the fragmentation problem demonstrate that the Naive approach can lead to less efficient and accurate models, particularly with certain Boolean functions like `f = x1x2 + x3x4`, which requires replicated subtrees.\n\nHowever, the provided information **does not contain specific examples** of cases where the Naive independence assumption is demonstrably false, *yet* models using it produce remarkably accurate results. Therefore, I cannot provide specific instances to illustrate this phenomenon based solely on the given sub-task results.\n\nDespite the lack of specific examples in the source material, it's helpful to consider potential reasons *why* the Naive assumption might work well even when violated (although these reasons are not directly supported by the document, but are based on general knowledge of the field):\n\n1.  **Decision Boundary Shape:** The underlying decision boundary might be relatively simple, even with feature dependencies. A model assuming independence could still approximate the boundary adequately.\n2.  **Robustness to Errors:** Some classification algorithms are robust to minor errors in probability estimates, mitigating the impact of the incorrect independence assumption.\n3.  **Dominant Features:** If a few features are significantly more informative than others, the model's performance may be primarily driven by these dominant features, minimizing the impact of inaccuracies related to the less influential, dependent features.\n4.  **Task Specificity:** The specific task being addressed may be relatively insensitive to the dependencies between features.\n5.  **Error Cancellation:** Errors introduced by the assumption of independence may, in some cases, cancel each other out, leading to a seemingly accurate result.\n6. **Sufficient Data:** Given sufficient data, the model's accuracy may be reasonably high, regardless of the naive assumptions.\n\nIn summary, the Naive assumption simplifies calculations by assuming feature independence. This assumption is frequently violated and can lead to inaccuracies, particularly in the presence of noise or complex feature interactions. While the provided text doesn't give specific instances where models relying on this assumption achieve good results despite its violation, several factors such as a simple decision boundary, robustness of the algorithm, dominant features, task specificity, error cancellation, or sufficient data might contribute to such a phenomenon.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "What is the 'Naive' assumption in statistical modeling where input features are treated as independent?",
+          "mode": "naive",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Examples where the 'Naive' independence assumption is violated in statistical modeling.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Situations where models using the 'Naive' assumption are inaccurate.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Cases where the 'Naive' independence assumption is demonstrably false, yet models using it produce accurate results.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Synthesize the results of tasks 1, 2, 3, and 4 to identify the specific cases and explain why the naive assumption works despite being false.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8081,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 26,
+    "query": "Contrast 'Passive' reinforcement learning, where the agent just watches a fixed policy, with 'Active' learning, where the agent changes the policy. How does the 'Value Iteration' algorithm differ from the 'Policy Iteration' algorithm in terms of computational cycles?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.15,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 50.17,
+      "answer": "The original query asks to contrast 'Passive' reinforcement learning with 'Active' learning, and to compare the 'Value Iteration' and 'Policy Iteration' algorithms in terms of computational cycles.\n\n**Passive vs. Active Reinforcement Learning**\n\nPassive and active reinforcement learning are two distinct paradigms in reinforcement learning, differing primarily in how the agent handles its policy. In passive reinforcement learning, the agent operates under a fixed, pre-defined policy, denoted as π(X), which maps input vectors to actions, without modifying it during the learning process. The agent focuses on evaluating the value of this policy by estimating the value function Vπ(X), which represents the expected cumulative reward obtained by following policy π from state X. Temporal Discounting, using a discount factor γ (0 ≤ γ < 1), is often applied to future rewards when calculating the value function, such that the present value of a reward, r<sub>i</sub>, occurring i time units in the future, is taken to be γ<sup>i</sup>r<sub>i</sub>. An example is a robot following a fixed set of rules to navigate a grid world, aiming to learn the \"goodness\" of each cell based on these fixed rules.\n\nIn contrast, active reinforcement learning allows the agent to actively change its policy during the learning process. The agent modifies its policy based on the rewards it receives from the environment, with the goal of maximizing the reward accumulated over time. The agent seeks to learn an optimal policy through trial and error. Exploration is crucial in active learning, as the agent needs to discover new and potentially better actions and policies, balancing exploitation (using known good actions) and exploration (trying new actions).  Algorithms like Q-learning or SARSA are commonly used in active reinforcement learning.\n\n**Value Iteration vs. Policy Iteration**\n\nBoth Value Iteration and Policy Iteration are dynamic programming algorithms used to find optimal policies in Markov Decision Processes (MDPs), aiming to find a policy that maximizes the expected cumulative reward. Both algorithms, in their basic form, typically assume knowledge of the state space, action space, transition probabilities, and reward function. They are also iterative algorithms, refining their estimates or policies over multiple iterations until convergence.\n\nHowever, they differ in their approach and computational characteristics. Value Iteration iteratively updates the *value function* (V(s)) for each state, aiming to improve the estimated value of each state until the value function converges. The algorithm begins by assigning an estimated value, denoted as ˆV(X), to every state X. During the i-th step of the process, the algorithm considers state X<sub>i</sub> with an estimated value ˆV<sub>i</sub>(X<sub>i</sub>). It then selects action 'a' that maximizes the estimated value of the predicted subsequent state. Supposing X' is the subsequent state having the highest estimated value, the estimated value, ˆV<sub>i</sub>(X), of state X<sub>i</sub> is updated as follows:\n\nˆV<sub>i</sub>(X) = (1 −c<sub>i</sub>) ˆV<sub>i-1</sub>(X) + c<sub>i</sub> [r<sub>i</sub> + γ ˆV<sub>i-1</sub>(X')] if X = X<sub>i</sub>,\n\n= ˆV<sub>i-1</sub>(X) otherwise.\n\nHere, c<sub>i</sub> represents a learning factor, r<sub>i</sub> is the immediate reward received when executing action 'a' in state X, and γ is a discount factor.\n\nPolicy Iteration, on the other hand, iteratively improves the *policy* directly. Each iteration consists of two main steps: policy evaluation and policy improvement. Policy evaluation calculates the value function *V<sup>π</sup>(s)* for the current policy *π*, typically involving solving a system of linear equations. Policy improvement creates a new policy *π'* by acting greedily with respect to *V<sup>π</sup>(s)*, choosing the action that maximizes the expected reward given *V<sup>π</sup>(s)* for each state. The 'Policy Iteration' algorithm involves improving a policy by changing it so that π(X) = a, where action *a* makes Qπ(X, a) larger than Vπ(X).\n\nIn terms of computational cost, Value Iteration has a lower computational cost per iteration compared to Policy Iteration. Policy Iteration's policy evaluation step, involving solving a system of linear equations, can be computationally expensive. However, Policy Iteration often converges in fewer iterations than Value Iteration, as each iteration makes a significant change to the policy.  Value iteration's complexity can be estimated to be O(n<sup>k</sup>).\n\nRegarding convergence, Value Iteration typically converges more slowly than Policy Iteration because each iteration makes a relatively small adjustment to the value function. Policy Iteration often converges faster because each iteration guarantees policy improvement. However, each iteration is more computationally expensive.\n\nIn summary, Policy Iteration often converges faster (in terms of iterations) but at a higher computational cost per iteration, while Value Iteration is generally slower to converge but has a lower computational cost per iteration. The best choice depends on the specifics of the MDP, including the size of the state space and the computational resources available.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Define 'Passive' reinforcement learning in the context of a fixed policy and provide examples.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Define 'Active' reinforcement learning and describe how the agent modifies the policy during the learning process.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Compare and contrast 'Passive' and 'Active' reinforcement learning, highlighting their key differences and use cases.",
+          "mode": "reasoning",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Explain the 'Value Iteration' algorithm and its computational complexity.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Explain the 'Policy Iteration' algorithm and its computational complexity.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_6",
+          "query": "Compare 'Value Iteration' and 'Policy Iteration' algorithms in terms of their computational cycles, considering factors like convergence rate and the computations performed in each iteration.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.7,
+        "answer_relevancy": 0.875,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 27,
+    "query": "Examine the 'Knowledge-Based Artificial Neural Network' (KBANN). How does the system 'map' a set of 'IF-THEN' rules into a network of weights and biases, and what happens to those 'hand-coded' rules as the system starts to see new empirical data?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.17,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 64.85,
+      "answer": "The Knowledge-Based Artificial Neural Network (KBANN) is a neural network architecture designed to integrate prior knowledge, typically in the form of IF-THEN rules, with the learning capabilities of neural networks. This allows the network to leverage existing knowledge while still adapting to new empirical data. KBANN uses Threshold Logic Units (TLUs) as the core computational element in its network architecture.\n\n**Mapping IF-THEN Rules into a Network of Weights and Biases**\n\nKBANN maps IF-THEN rules into a network of weights and biases primarily through the use of TLUs within a feedforward network architecture. The process is as follows:\n\n1.  **TLUs as Logic Gates:** TLUs serve as the fundamental processing units, implementing a threshold function. A TLU sums its weighted inputs and compares the result to a threshold value. If the weighted sum equals or exceeds the threshold, the TLU outputs 1; otherwise, it outputs 0.\n2.  **Representing Terms and Clauses:** Each term or clause in an IF-THEN rule is implemented by a TLU.  For example, consider the rule \"IF A AND NOT B THEN C.\" The \"A AND NOT B\" part would be represented by a TLU. The assignment of weights is crucial: a positive literal (like A) gets a weight of +1, a negative literal (like NOT B) gets a weight of -1. Literals not appearing in the term get a weight of 0.\n3.  **Setting the Threshold:** The threshold (θ) for each TLU is determined by the number of positive literals (kp) in the corresponding term using the formula θ = kp - 1/2.  This threshold ensures the TLU correctly implements the logical AND operation.\n4.  **Two-Layer Networks for Disjunctive Normal Form (DNF):** KBANN can use two-layer networks to implement k-term DNF functions. The first layer TLUs represent the individual terms, and the output unit in the second layer implements a disjunction (OR) of these terms. The weights in the final layer are typically fixed. The weights in the first layer (excluding threshold weights) can be 1, -1, or 0, reflecting the presence, absence, or negation of input features.\n5.  **Hyperplane Boundaries:** Each TLU implements a hyperplane boundary that is parallel to a subface of dimension (n - k) of the unit hypercube, where 'n' is the number of inputs and 'k' is the size of the term. This geometric interpretation highlights how TLUs partition the input space based on the rules.\n\n**Adapting Hand-Coded Rules with New Empirical Data**\n\nAs the system encounters new empirical data, the initial \"hand-coded\" rules, now represented by the network's weights and biases, are refined through training. This process primarily involves adjusting the weights of the TLUs using error-correction procedures.\n\nWhen the TLU makes an error on a training pattern, adjustments are made to the weight vector to correctly classify the feature vector. Specifically:\n\n*   If the TLU produces an output of 1 when it should have produced 0, the weight vector (V) is modified as follows: `V ← V − ciYi` where *ci* is a constant and *Yi* is the vector of unweighted inputs.\n*   If the TLU produces an output of 0 when it should have produced 1, the weight vector (V) is modified as follows: `V ← V + ciYi` where *ci* is a constant and *Yi* is the vector of unweighted inputs.\n\nThis iterative weight adjustment process allows the network to adapt the initial knowledge to better fit the observed data. The initial weights derived from the IF-THEN rules provide a strong inductive bias, guiding the learning process and potentially leading to faster convergence and improved generalization compared to starting with random weights.\n\n**Advantages and Limitations**\n\nKBANN provides advantages such as knowledge integration, adaptability, implementation of Boolean functions, and error correction procedures. It allows for the direct incorporation of expert knowledge, improved learning speed due to the initial knowledge bias, and the ability to refine the initial knowledge based on new data. However, there are limitations. An inadequate first layer of TLUs can limit performance, as the first layer partitions the feature space. There are also example problems for which weight values exist for a given Madaline structure to classify all members of a training set correctly, but the procedure will fail to find them. Further, there are limitations in training Piecewise Linear Machines with more than three weight vectors in each bank, and it's difficult to assign \"blame\" to a specific TLU when the network makes an error. Despite these limitations, KBANN provides a powerful framework for combining prior knowledge with empirical learning in neural networks.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Explain the Knowledge-Based Artificial Neural Network (KBANN) architecture and functionality.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Describe how KBANN maps IF-THEN rules into a network of weights and biases.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Explain how KBANN integrates and adapts hand-coded rules with new empirical data during training.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Summarize the advantages and limitations of using KBANN for knowledge integration and refinement.",
+          "mode": "global",
+          "status": "completed"
+        },
+        {
+          "id": "task_5",
+          "query": "Synthesize a concise explanation of how KBANN addresses the problem of incorporating prior knowledge into neural networks and adapts this knowledge during learning, summarizing the key steps and benefits.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.9583,
+        "answer_relevancy": 0.8575,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 28,
+    "query": "Find the discussion on 'Robustness.' How does the book suggest handling a 'noisy' feature value versus a 'mislabeled' instance? Which of these is more damaging to a 'Version Space' versus a 'Neural Network'?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.14,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": true,
+      "time_s": 33.51,
+      "answer": "The book discusses \"Robustness\" in the context of classifying robots based on a domain theory of logical sentences. A robot is considered Robust if it can fix itself, according to the domain theory, which includes logical sentences defining the concept of \"robust\" [Robust(u)]. The book uses examples with robots Num5 and Num6 to illustrate this concept. Predicates such as Fixes(u, u), Sees(x, y), Habile(x), Robot(w), and R2D2(x) are used in these logical sentences to define Robustness.\n\nUnfortunately, the provided context does not contain specific guidance from the book on how to handle 'noisy' feature values versus 'mislabeled' instances.\n\nHowever, we can analyze the likely impact of each on 'Version Spaces' and 'Neural Networks' based on the information available regarding these learning methods in the book. The book mentions Version Spaces in Chapter 3 and Neural Networks in Chapter 4. A Version Space is used for learning, and selecting a hypothesis from the version space is viewed as a search problem, where one can start with a general function and specialize it, or with a special function and generalize it. The Candidate Elimination Method is an incremental method for computing the boundary sets that represent a new version space consistent with all the previous instances plus the new one. The book also mentions a neural network system called ALVINN (Autonomous Land Vehicle in a Neural Network) that has been trained to steer a Chevy van successfully on ordinary roads and highways at speeds of 55 mph, where the input to the network is derived from a low-resolution television image.\n\nGiven this information:\n\n*   **Version Spaces:** A *mislabeled instance* would likely be more damaging. Version Spaces rely on maintaining a consistent set of hypotheses that agree with all training data. A mislabeled instance directly contradicts the existing hypothesis space. The Candidate Elimination algorithm would need to drastically adjust the boundaries to exclude hypotheses that incorrectly classify this mislabeled instance, potentially shrinking the version space significantly or even causing it to collapse entirely. A *noisy feature value* might be problematic, but potentially less so. Noisy data might make it harder to determine the correct hypothesis, but there is a chance that some hypotheses will still correctly classify the instance based on other features, so the instance might not be entirely excluded from the hypothesis space.\n\n*   **Neural Networks:** Both mislabeled instances and noisy feature values can be detrimental, and it's less definitively clear which would be more damaging without specific details on the network architecture, training regime, and levels of noise. A *mislabeled instance* would cause the network to adjust its weights to accommodate the incorrect label, leading to overfitting, where the network performs well on the training data but poorly on unseen data. A *noisy feature value* would introduce error into the learning process, causing the network to adjust its weights to compensate for the incorrect feature value. This could also lead to suboptimal weight adjustments and potentially overfitting, but the impact might be less direct than mislabeling because it would only be associated with one particular feature. The success of the ALVINN system suggests neural networks have some built-in robustness to noise.\n\nIn conclusion, while the book's specific recommendations on handling noisy features versus mislabeled instances are not available in the provided context, we can infer that a 'mislabeled' instance would likely be more damaging to a Version Space because Version Spaces require consistency, whereas the relative impact on Neural Networks is harder to judge without more details. Both are detrimental, but without specific details about the network architecture and training regime, it is difficult to definitively say which is more damaging.",
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Locate the discussion on 'Robustness' within the context of the book.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "How does the book suggest handling a 'noisy' feature value versus a 'mislabeled' instance?",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Define 'Version Space' and 'Neural Network' in the context of the book.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_4",
+          "query": "Synthesize information from previous tasks to determine which is more damaging to a 'Version Space' versus a 'Neural Network': a 'noisy' feature value or a 'mislabeled' instance.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.878,
+        "answer_relevancy": 0.8638,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 29,
+    "query": "Locate the 'Bagging' or 'Boosting' concepts (even if named differently). Does the author suggest that 'averaging' the votes of 10 weak learners can outperform a single strong learner? What is the requirement for the 'diversity' of those weak learners?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.15,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": false,
+      "time_s": 39.97,
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify and explain the concepts of 'Bagging' and 'Boosting', including any alternative names or variations used to describe them.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Determine if the author suggests that averaging the votes of 10 weak learners can outperform a single strong learner. Extract any relevant statements or arguments related to this comparison.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Find and summarize the author's discussion of the 'diversity' requirement for weak learners in the context of ensemble methods like Bagging or Boosting. What properties or characteristics contribute to 'diversity'?",
+          "mode": "local",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  },
+  {
+    "query_num": 30,
+    "query": "Based on the concluding remarks, what does the author identify as the primary 'computational' limit to scaling these algorithms to human-level complexity? Is it the number of 'neurons,' the amount of 'data,' or the 'speed of the search'?",
+    "gemini": {
+      "success": false,
+      "time_s": 1.24,
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    },
+    "planner": {
+      "success": false,
+      "time_s": 21.62,
+      "subtasks": [
+        {
+          "id": "task_1",
+          "query": "Identify the concluding remarks or final section of the document.",
+          "mode": "local",
+          "status": "completed"
+        },
+        {
+          "id": "task_2",
+          "query": "Extract the author's identified primary 'computational' limit to scaling algorithms to human-level complexity from the concluding remarks.",
+          "mode": "hybrid",
+          "status": "completed"
+        },
+        {
+          "id": "task_3",
+          "query": "Determine if the identified limit is the number of 'neurons,' the amount of 'data,' or the 'speed of the search'.",
+          "mode": "reasoning",
+          "status": "completed"
+        }
+      ],
+      "ragas": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "llm_context_precision_without_reference": 0.0,
+        "context_utilization": 0.0
+      }
+    }
+  }
+]
