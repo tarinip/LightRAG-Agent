@@ -47,6 +47,7 @@ Grader Agent (evaluate answer quality)
 | `lightrag/prompt.py` | LLM prompts for classification, planning, grading, and synthesis |
 | `examples/streamlit_benchmark.py` | Interactive Streamlit app for benchmarking Standard RAG vs AgenticRAG |
 | `examples/benchmark_agentic_rag.py` | CLI benchmark script with RAGAS evaluation |
+| `exploratory_data_analysis.py` | EDA done for project |
 
 ---
 
@@ -177,6 +178,8 @@ examples/
 ├── streamlit_benchmark.py  # Interactive benchmark UI
 ├── benchmark_agentic_rag.py # CLI benchmark with RAGAS
 └── lightrag_gemini_demo.py # Gemini integration demo
+
+exploratory_data_analysis.py # EDA for datasets
 ```
 
 ---
